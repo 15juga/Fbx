@@ -1,0 +1,192 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="FBX DEMO">
+      <UniqueIdentifier>{ae5c3e05-b8f3-42f9-89ac-fe5b81b0592b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Model Attributes">
+      <UniqueIdentifier>{1cc52a05-d973-4121-8fa4-e85b94276c02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Node Types">
+      <UniqueIdentifier>{993f6ec2-a7fb-4ba4-8907-ebd66d1075d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Other">
+      <UniqueIdentifier>{2b6347f7-8a25-4f37-8ec4-46196b2ad1cb}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FbxExample\DisplayNurb.cxx">
+      <Filter>FBX DEMO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FbxExample\DisplayPatch.cxx">
+      <Filter>FBX DEMO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FbxExample\DisplayPivotsAndLimits.cxx">
+      <Filter>FBX DEMO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FbxExample\DisplayPose.cxx">
+      <Filter>FBX DEMO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FbxExample\DisplayShape.cxx">
+      <Filter>FBX DEMO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FbxExample\DisplaySkeleton.cxx">
+      <Filter>FBX DEMO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FbxExample\DisplayTexture.cxx">
+      <Filter>FBX DEMO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FbxExample\DisplayUserProperties.cxx">
+      <Filter>FBX DEMO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FbxExample\main.cxx">
+      <Filter>FBX DEMO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FbxExample\DisplayAnimation.cxx">
+      <Filter>FBX DEMO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FbxExample\DisplayCache.cxx">
+      <Filter>FBX DEMO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FbxExample\DisplayCamera.cxx">
+      <Filter>FBX DEMO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FbxExample\DisplayCommon.cxx">
+      <Filter>FBX DEMO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FbxExample\DisplayGenericInfo.cxx">
+      <Filter>FBX DEMO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FbxExample\DisplayGlobalSettings.cxx">
+      <Filter>FBX DEMO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FbxExample\DisplayHierarchy.cxx">
+      <Filter>FBX DEMO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FbxExample\DisplayLight.cxx">
+      <Filter>FBX DEMO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FbxExample\DisplayLink.cxx">
+      <Filter>FBX DEMO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FbxExample\DisplayLodGroup.cxx">
+      <Filter>FBX DEMO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FbxExample\DisplayMarker.cxx">
+      <Filter>FBX DEMO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FbxExample\DisplayMaterial.cxx">
+      <Filter>FBX DEMO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FbxExample\DisplayMesh.cxx">
+      <Filter>FBX DEMO</Filter>
+    </ClCompile>
+    <ClCompile Include="Reader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\FbxExample\DisplayMesh.h">
+      <Filter>FBX DEMO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FbxExample\DisplayNurb.h">
+      <Filter>FBX DEMO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FbxExample\DisplayPatch.h">
+      <Filter>FBX DEMO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FbxExample\DisplayPivotsAndLimits.h">
+      <Filter>FBX DEMO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FbxExample\DisplayPose.h">
+      <Filter>FBX DEMO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FbxExample\DisplayShape.h">
+      <Filter>FBX DEMO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FbxExample\DisplaySkeleton.h">
+      <Filter>FBX DEMO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FbxExample\DisplayTexture.h">
+      <Filter>FBX DEMO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FbxExample\DisplayUserProperties.h">
+      <Filter>FBX DEMO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FbxExample\DisplayAnimation.h">
+      <Filter>FBX DEMO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FbxExample\DisplayCache.h">
+      <Filter>FBX DEMO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FbxExample\DisplayCamera.h">
+      <Filter>FBX DEMO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FbxExample\DisplayCommon.h">
+      <Filter>FBX DEMO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FbxExample\DisplayGenericInfo.h">
+      <Filter>FBX DEMO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FbxExample\DisplayGlobalSettings.h">
+      <Filter>FBX DEMO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FbxExample\DisplayHierarchy.h">
+      <Filter>FBX DEMO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FbxExample\DisplayLight.h">
+      <Filter>FBX DEMO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FbxExample\DisplayLink.h">
+      <Filter>FBX DEMO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FbxExample\DisplayLodGroup.h">
+      <Filter>FBX DEMO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FbxExample\DisplayMarker.h">
+      <Filter>FBX DEMO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FbxExample\DisplayMaterial.h">
+      <Filter>FBX DEMO</Filter>
+    </ClInclude>
+    <ClInclude Include="ACJL_Format.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Geometry.h">
+      <Filter>Header Files\Model Attributes</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes.h">
+      <Filter>Header Files\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Child.h">
+      <Filter>Header Files\Node Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>Header Files\Model Attributes</Filter>
+    </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>Header Files\Node Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Reader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

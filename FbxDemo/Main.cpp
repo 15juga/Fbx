@@ -70,7 +70,7 @@ int main(int argc, char** argv)
 	FbxExporter* exporter = FbxExporter::Create(manager, "exporter");
 
 	ExportFile(exporterFilepath, childLib, lightLib, cameras, totalCountOfChildren, nrOfMeshes, nrOfLights, nrOfCameras, exporter);
-	//ReadFile(exporterFilepath);
+	ReadFile(exporterFilepath);
 
 	//___________________________________ Terminate ___________________________________//
 	exporter->Destroy();
@@ -291,6 +291,7 @@ bool ReadFile(const char* exportedFile)
 		reader.close();
 	}
 
+	std::getchar();
 	return true;
 }
 

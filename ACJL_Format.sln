@@ -8,6 +8,9 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Loader", "Loader\Loader.vcxproj", "{D2FCFDCC-053A-47E2-A8A2-A27DDF3097A5}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Console", "Console\Console.vcxproj", "{37D83AA8-D210-42BA-B884-86C9C8FFEFE1}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D2FCFDCC-053A-47E2-A8A2-A27DDF3097A5} = {D2FCFDCC-053A-47E2-A8A2-A27DDF3097A5}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

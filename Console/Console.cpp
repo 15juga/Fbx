@@ -7,7 +7,6 @@ int main()
 
     std::vector<Vertex> mesh;
 
-    LIB::Reader::ReadFile("yote.acjl");
+    LIB::Reader::ReadFile("boll.acjl");
     //LIB::Reader::LoadMesh("boll.acjl", mesh);
-
 }

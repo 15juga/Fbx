@@ -30,37 +30,37 @@ void GetMeshData(ACJL::Mesh& meshHeader, FbxNode* node)
 void GetMorphData(ACJL::Mesh& meshHeader, FbxMesh* pMesh, 
 	std::vector<ACJL::BlendShape>& outMorph, std::vector<fbxsdk::FbxVector4*>& outblendVerts)
 {
-	int nOfBlendShapes = pMesh->GetDeformerCount(FbxDeformer::eBlendShape);
+	int nOfBlendShapes = pMesh->GetDeformerCount();
 	// save number of blendshapes code here
 
-	ACJL::BlendShape header;
-
-	if (nOfBlendShapes > 0)
+	ACJL::BlendShape bs;
+	for (int bi = 0; bi < nOfBlendShapes; bi++)
 	{
-		ACJL::BlendShape bs;
-
-		for (int bi = 0; bi < nOfBlendShapes; bi++)
+		FbxBlendShape* pFbxBs = (FbxBlendShape*)pMesh->GetDeformer(bi, FbxDeformer::eBlendShape);
+		int nOChannels = pFbxBs->GetBlendShapeChannelCount();
+		
+		for (int j = 0; j < nOChannels; j++)
 		{
-			FbxBlendShape* pFbxBs = (FbxBlendShape*)pMesh->GetDeformer(bi, FbxDeformer::eBlendShape);
-			int nOChannels = pFbxBs->GetBlendShapeChannelCount();
-			for (int ci = 0; ci < nOChannels; ci++)
+			FbxBlendShapeChannel* blendShapeChannel = pFbxBs->GetBlendShapeChannel(j);
+			double* weights = blendShapeChannel->GetTargetShapeFullWeights();
+			int noShapes = blendShapeChannel->GetTargetShapeCount();
+			for (int k = 0; k < noShapes; k++)
 			{
-				FbxBlendShapeChannel* channel = pFbxBs->GetBlendShapeChannel(ci);
-				int nOShapes = channel->GetTargetShapeCount();
-				meshHeader.nrOfBlendShapes = nOShapes;
-				for (int si = 0; si < nOShapes; si++)
+				FbxShape* pShape = blendShapeChannel->GetTargetShape(k);
+				int cpCount = pShape->GetControlPointsCount();
+				FbxVector4* cp = pShape->GetControlPoints();
+				std::vector<FbxVector4> vec;
+				for (int l = 0; l < cpCount; l++)
 				{
-					FbxShape* pShape = channel->GetTargetShape(si);
-					outblendVerts.push_back(pShape->GetControlPoints());
-					FbxVector4 tmpBlendVert = *outblendVerts[si];
-					for (int k = 0; k < 4; k++)
-						header.morphShape[k] = (float)tmpBlendVert[k];
-					outMorph.push_back(header);
-					//outCount++;
+					vec.emplace_back(cp[l]);
 				}
+				
+				
+				cout << cpCount;
 			}
 		}
 	}
+
 }
 
 void GetMeshName(ACJL::Mesh& meshHeader, FbxNode* node)
@@ -257,6 +257,6 @@ void GetMeshAttr(Child& currentChild)
 
 	GetMaterials(currentChild.GetMesh(), currentChild.GetFbxNode());
 
-
+	std::vector<fbxsdk::FbxVector4*> blendVerts;
 	GetMorphData(currentChild.GetMesh(), currentChild.GetFbxNode()->GetMesh(), currentChild.GetBlendShape(), blendVerts);
 }

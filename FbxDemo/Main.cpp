@@ -20,7 +20,7 @@ bool ReadFile(const char* exportedFile);
 int main(int argc, char** argv)
 {
 	char exporterFilepath[100]{ "Resources/noanimationACJL/battery.acjl" };
-	FbxString fbxFile = { "Resources/FbxWithTexture/battery_mesh.fbx"};
+	FbxString fbxFile = { "Resources/FbxWithTexture/blendAni.fbx"};
 
 	//___________________________________ Manager and IO Setting ___________________________________//
 	FbxManager* manager = FbxManager::Create();

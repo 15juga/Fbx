@@ -206,31 +206,26 @@ namespace ACJL
 		unsigned int morphshapeCount = 0;
 	};
 
-	struct BindPose
-	{
-		char ParentID[50] = { "" };
-		VertexType vt = SKELETONVTX;
+	//struct BindPose
+	//{
+	//	char ParentID[50] = { "" };
+	//	VertexType vt = SKELETONVTX;
 
-	};
+	//};
 
-	struct AnimationStart
-	{
+	//struct SkeletalAnimation
+	//{
+	//	float duration = 0.0f;
+	//	int nrOfKeyframes = 0;
+	//	int nrOfJoints = 0;
+	//};
 
-	};
-
-	struct SkeletalAnimation
-	{
-		float duration = 0.0f;
-		int nrOfKeyframes = 0;
-		int nrOfJoints = 0;
-	};
-
-	struct Keyframe
-	{
-		DataType dt = KEYFRAMES;
-		float timeStamp = 0.0f;
-		Vector3 trans = { 0.0f, 0.0f, 0.0f };
-		Vector3 rot = { 0.0f, 0.0f, 0.0f };
-		Vector3 scale = { 0.0f, 0.0f, 0.0f };
-	};
+	//struct Keyframe
+	//{
+	//	DataType dt = KEYFRAMES;
+	//	float timeStamp = 0.0f;
+	//	Vector3 trans = { 0.0f, 0.0f, 0.0f };
+	//	Vector3 rot = { 0.0f, 0.0f, 0.0f };
+	//	Vector3 scale = { 0.0f, 0.0f, 0.0f };
+	//};
 }

@@ -258,5 +258,5 @@ void GetMeshAttr(Child& currentChild)
 	GetMaterials(currentChild.GetMesh(), currentChild.GetFbxNode());
 
 
-	GetMorphData(currentChild.GetMesh(), currentChild.GetFbxNode()->GetMesh(), currentChild.GetBlendShape(), blendVerts);
+	//GetMorphData(currentChild.GetMesh(), currentChild.GetFbxNode()->GetMesh(), currentChild.GetBlendShape(), blendVerts);
 }

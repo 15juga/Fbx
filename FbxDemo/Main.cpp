@@ -19,8 +19,8 @@ bool ReadFile(const char* exportedFile);
 
 int main(int argc, char** argv)
 {
-	char exporterFilepath[100]{ "Resources/noanimationACJL/battery.acjl" };
-	FbxString fbxFile = { "Resources/FbxWithTexture/battery_mesh.fbx"};
+	char exporterFilepath[100]{ "Resources/cube.acjl" };
+	FbxString fbxFile = { "Resources/cube.fbx"};
 
 	//___________________________________ Manager and IO Setting ___________________________________//
 	FbxManager* manager = FbxManager::Create();
@@ -70,7 +70,7 @@ int main(int argc, char** argv)
 	FbxExporter* exporter = FbxExporter::Create(manager, "exporter");
 
 	ExportFile(exporterFilepath, childLib, lightLib, cameras, totalCountOfChildren, nrOfMeshes, nrOfLights, nrOfCameras, exporter);
-	//ReadFile(exporterFilepath);
+	ReadFile(exporterFilepath);
 
 	//___________________________________ Terminate ___________________________________//
 	exporter->Destroy();
@@ -291,6 +291,7 @@ bool ReadFile(const char* exportedFile)
 		reader.close();
 	}
 
+	std::getchar();
 	return true;
 }
 

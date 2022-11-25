@@ -1,8 +1,9 @@
 #pragma once
-#include "Inc.h"
+#include "INC.H"
 
-namespace ACJL 
+namespace ACJL
 {
+	//____________________________________________ Types ____________________________________________//
 	enum DataType
 	{
 		START,
@@ -45,12 +46,6 @@ namespace ACJL
 		VOLUME
 	};
 
-	enum AreaLightShape
-	{
-		RECTANGLE,
-		SPHERE
-	};
-
 	enum LightDecayType
 	{
 		NONE,
@@ -59,10 +54,11 @@ namespace ACJL
 		CUBIC
 	};
 
-	/*enum CameraType
+	enum AreaLightShape
 	{
-
-	};*/
+		RECTANGLE,
+		SPHERE
+	};
 
 	//____________________________________________ Generals ____________________________________________//
 
@@ -88,31 +84,32 @@ namespace ACJL
 		DataType dt = MESH;
 		char meshName[50] = { "" };
 		VertexType vt = BASICVTX;
-		Vector3 trans = { 0.0f, 0.0f, 0.0f };
-		Vector3 rot = { 0.0f, 0.0f, 0.0f };
-		Vector3 scale = { 0.0f, 0.0f, 0.0f };
+		float trans[3] = { 0.0f, 0.0f, 0.0f };
+		float rot[3] = { 0.0f, 0.0f, 0.0f };
+		float scale[3] = { 0.0f, 0.0f, 0.0f };
 		int nrOfAnimation = 0;
 		int nrOfMaterial = 0;
 		int nrOfTextures = 0;
 		int nrOfVertices = 0;
 		int nrOfIndices = 0;
+		int nrOfBlendShapes = 0;
 	};
 
 	//____________________________________________ Vertex ____________________________________________//
 	struct Vertex
 	{
-		Vector3 pos = { 0.0f, 0.0f, 0.0f };
-		Vector2 uv = { 0 ,0 };
-		Vector3 normals = { 0.0f, 0.0f, 0.0f };
-		Vector3 tangents = { 0.0f, 0.0f, 0.0f };
-		Vector3 bitangents = { 0.0f, 0.0f, 0.0f };
+		float pos[3] = { 0.0f, 0.0f, 0.0f };
+		float uv[2] = { 0 ,0 };
+		float normals[3] = { 0.0f, 0.0f, 0.0f };
+		float tangents[3] = { 0.0f, 0.0f, 0.0f };
+		float bitangents[3] = { 0.0f, 0.0f, 0.0f };
+
 	};
 
 	//____________________________________________ Texture ____________________________________________//
 	struct Texture
 	{
 		DataType dt = TEXTURE;
-		TextureType tt;
 		char path[200] = { "" };
 		char name[100] = { "" };
 	};
@@ -128,9 +125,9 @@ namespace ACJL
 		DataType dt = MATERIAL;
 		char matName[50] = { "" };
 		MaterialType mt;
-		Vector3 ambient = { 0.0f, 0.0f, 0.0f };
-		Vector3 diffuse = { 0.0f, 0.0f, 0.0f };
-		Vector3 specular = { 0.0f, 0.0f, 0.0f };
+		float ambient[3] = { 0.0f, 0.0f, 0.0f };
+		float diffuse[3] = { 0.0f, 0.0f, 0.0f };
+		float specular[3] = { 0.0f, 0.0f, 0.0f };
 		float specularIntensity = 0.0f;
 		char albedoName[500] = { "" };
 		char normalName[100] = { "" };
@@ -185,13 +182,12 @@ namespace ACJL
 	{
 		DataType dt = CAMERA;
 		char name[50] = { "" };
-		Vector3 pos = { 0.0f, 0.0f, 0.0f };
-		Vector3 upVec = { 0.0f, 0.0f, 0.0f };
-		Vector3 forVec = { 0.0f, 0.0f, 0.0f };
+		float pos[3] = { 0.0f, 0.0f, 0.0f };
+		float upVec[3] = { 0.0f, 0.0f, 0.0f };
+		float forVec[3] = { 0.0f, 0.0f, 0.0f };
 		float FOV = 0.0f;
 		float nearZ = 0.0f;
 		float farZ = 0.0f;
-
 	};
 
 	//____________________________________________ Animation ____________________________________________//
@@ -229,8 +225,9 @@ namespace ACJL
 	{
 		DataType dt = KEYFRAMES;
 		float timeStamp = 0.0f;
-		Vector3 trans = { 0.0f, 0.0f, 0.0f };
-		Vector3 rot = { 0.0f, 0.0f, 0.0f };
-		Vector3 scale = { 0.0f, 0.0f, 0.0f };
+		float trans[3] = { 0.0f, 0.0f, 0.0f };
+		float rot[3] = { 0.0f, 0.0f, 0.0f };
+		float scale[3] = { 0.0f, 0.0f, 0.0f };
 	};
+
 }

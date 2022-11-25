@@ -27,11 +27,10 @@ void GetMeshData(ACJL::Mesh& meshHeader, FbxNode* node)
 	meshHeader.nrOfVertices = 0;
 }
 
-void GetMorphData(ACJL::Mesh& meshHeader, FbxMesh* pMesh, 
+inline void GetMorphData(ACJL::Mesh& meshHeader, FbxMesh* pMesh, 
 	std::vector<ACJL::BlendShape>& outMorph, std::vector<fbxsdk::FbxVector4*>& outblendVerts)
 {
 	int nOfBlendShapes = pMesh->GetDeformerCount();
-	// save number of blendshapes code here
 
 	ACJL::BlendShape bs;
 	for (int bi = 0; bi < nOfBlendShapes; bi++)
@@ -50,13 +49,10 @@ void GetMorphData(ACJL::Mesh& meshHeader, FbxMesh* pMesh,
 				int cpCount = pShape->GetControlPointsCount();
 				FbxVector4* cp = pShape->GetControlPoints();
 				std::vector<FbxVector4> vec;
-				for (int l = 0; l < cpCount; l++)
-				{
-					vec.emplace_back(cp[l]);
-				}
+				outblendVerts.emplace_back(cp);
 				
 				
-				cout << cpCount;
+				
 			}
 		}
 	}

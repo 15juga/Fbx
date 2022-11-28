@@ -12,7 +12,6 @@ int main()
         
         if (x == 1) {
             std::string path = Dialogs::OpenFile("Model (*.acjl)\0*.acjl;\0", "Assets\\");
-            x = 0;
             if (!path.empty())
             {
                 LIB::Reader::ReadFile(path.c_str());

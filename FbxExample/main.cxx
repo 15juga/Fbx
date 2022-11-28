@@ -37,9 +37,9 @@
 #include "DisplayUserProperties.h"
 #include "DisplayGenericInfo.h"
 
-#pragma comment(lib,"libfbxsdk-mt.lib")
-#pragma comment(lib,"libxml2-mt.lib")
-#pragma comment(lib,"zlib-mt.lib")
+//#pragma comment(lib,"libfbxsdk-mt.lib")
+//#pragma comment(lib,"libxml2-mt.lib")
+//#pragma comment(lib,"zlib-mt.lib")
 
 // Local function prototypes.
 void DisplayContent(FbxScene* pScene);
@@ -71,7 +71,7 @@ int main(int argc, char** argv)
 
 	if( lFilePath.IsEmpty() )
 	{
-		lFilePath = "box.fbx";
+		lFilePath = "Resources/FbxWithTexture/blendAni.fbx";
 		lResult = LoadScene(lSdkManager, lScene, lFilePath.Buffer());
         //lResult = false;
         //FBXSDK_printf("\n\nUsage: ImportScene <FBX file name>\n\n");
@@ -93,15 +93,15 @@ int main(int argc, char** argv)
 
         FBXSDK_printf("\n\n---------------------\nGlobal Light Settings\n---------------------\n\n");
 
-        if( gVerbose ) DisplayGlobalLightSettings(&lScene->GetGlobalSettings());
+        //if( gVerbose ) DisplayGlobalLightSettings(&lScene->GetGlobalSettings());
 
         FBXSDK_printf("\n\n----------------------\nGlobal Camera Settings\n----------------------\n\n");
 
-        if( gVerbose ) DisplayGlobalCameraSettings(&lScene->GetGlobalSettings());
+        //if( gVerbose ) DisplayGlobalCameraSettings(&lScene->GetGlobalSettings());
 
         FBXSDK_printf("\n\n--------------------\nGlobal Time Settings\n--------------------\n\n");
 
-        if( gVerbose ) DisplayGlobalTimeSettings(&lScene->GetGlobalSettings());
+        //if( gVerbose ) DisplayGlobalTimeSettings(&lScene->GetGlobalSettings());
 
         FBXSDK_printf("\n\n---------\nHierarchy\n---------\n\n");
 
@@ -113,7 +113,7 @@ int main(int argc, char** argv)
 
         FBXSDK_printf("\n\n----\nPose\n----\n\n");
 
-        if( gVerbose ) DisplayPose(lScene);
+        //if( gVerbose ) DisplayPose(lScene);
 
         FBXSDK_printf("\n\n---------\nAnimation\n---------\n\n");
 
@@ -122,7 +122,7 @@ int main(int argc, char** argv)
         //now display generic information
 
         FBXSDK_printf("\n\n---------\nGeneric Information\n---------\n\n");
-        if( gVerbose ) DisplayGenericInfo(lScene);
+        //if( gVerbose ) DisplayGenericInfo(lScene);
     }
 
     // Destroy all objects created by the FBX SDK.

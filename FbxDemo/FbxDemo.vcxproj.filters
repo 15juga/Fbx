@@ -96,6 +96,15 @@
     <ClCompile Include="..\FbxExample\DisplayMesh.cxx">
       <Filter>FBX DEMO</Filter>
     </ClCompile>
+    <ClCompile Include="..\Common\AnimationUtility.cxx">
+      <Filter>FBX DEMO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Common.cxx">
+      <Filter>FBX DEMO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\GeometryUtility.cxx">
+      <Filter>FBX DEMO</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\FbxExample\DisplayMesh.h">
@@ -181,6 +190,15 @@
     </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\AnimationUtility.h">
+      <Filter>FBX DEMO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Common.h">
+      <Filter>FBX DEMO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\GeometryUtility.h">
+      <Filter>FBX DEMO</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

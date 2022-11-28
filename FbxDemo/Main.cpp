@@ -106,7 +106,7 @@ void GetChildrenAndAttr(vector<Child>& childLib, vector<Light>& lightLib, std::v
 				nrOfMeshes++;
 				Child child(childNode);
 
-				GetMeshAttr(child);
+				GetMeshAttr(child, scene);
 				for (int mI = 0; mI < childNode->GetMaterialCount(); mI++)
 				{
 					ACJL::MaterialID childMaterialID;
@@ -139,11 +139,6 @@ void GetChildrenAndAttr(vector<Child>& childLib, vector<Light>& lightLib, std::v
 				GetLightData(childNode, light.getLight());
 				//std::cout << light.getLight().name << ":\n";
 				lightLib.push_back(light);
-				break;
-			}
-			case FbxNodeAttribute::eSkeleton:
-			{
-				//
 				break;
 			}
 			}

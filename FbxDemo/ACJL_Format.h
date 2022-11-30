@@ -202,7 +202,7 @@ namespace ACJL
 
 	//};
 
-	struct BlendShapeStart
+	struct BlendShapeKeysStart
 	{
 		DataType dt = BLENDSHAPESTART;
 		char name[64];

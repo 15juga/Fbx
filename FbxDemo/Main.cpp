@@ -79,7 +79,9 @@ int main(int argc, char** argv)
 	ios->Destroy();
 	importer->Destroy();
 	manager->Destroy();
-	printf("Job's done!\n");
+	printf("\n\nJob's done!\nPress ENTER to close...");
+	std::getchar();
+	return 0;
 }
 
 //_________________________________________________________ CAN ONLY COUNT ONE CHILD AT THE MOMENT <---UNSURE _________________________________________________________//
@@ -173,8 +175,12 @@ bool ExportFile(const char* exportFilePath, vector<Child>& childLib, vector<Ligh
 		{
 			ACJL::Mesh exportMesh = childLib[mI].GetMesh();
 			exportMesh.nrOfBlendShapes = childLib[mI].GetBlendVertArr().size();
-			printf("Material Name :	%s \n" ,childLib[mI].GetMaterialID());
-			printf("exporting mesh......	:	%s\n", childLib[mI].GetMesh().meshName);
+			printf("Material Name :\n\t");
+			for (int i = 0; i < childLib[mI].GetMaterialID().size(); i++)
+			{
+				printf("%s\n\t", childLib[mI].GetMaterialID()[i].matName);
+			}
+			printf("\nexporting mesh......	:	%s\n", childLib[mI].GetMesh().meshName);
 			output.write((const char*)&exportMesh, sizeof(ACJL::Mesh));
 			for (int j = 0; j < exportMesh.nrOfVertices; j++)
 			{
@@ -191,9 +197,9 @@ bool ExportFile(const char* exportFilePath, vector<Child>& childLib, vector<Ligh
 			}
 			for (int i = 0; i < exportMesh.nrOfMaterial; i++)
 			{
-				ACJL::Material readMat = childLib[mI].GetMaterial()[i];
-				//output.write((const char*)&readMat, sizeof(ACJL::Material));
-				ACJL_WRITE(readMat);
+				ACJL::Material exportMat = childLib[mI].GetMaterial()[i];
+				//output.write((const char*)&exportMat, sizeof(ACJL::Material));
+				ACJL_WRITE(exportMat);
 			}
 			// write blendshape meshes
 			for (int i = 0; i < exportMesh.nrOfBlendShapes; i++)
@@ -213,9 +219,17 @@ bool ExportFile(const char* exportFilePath, vector<Child>& childLib, vector<Ligh
 			// they are separated from blendmeshes in case we want to write other types of keyframes in the same area in the future
 			for (int i = 0; i < exportMesh.nrOfBlendShapes; i++)
 			{
-				ACJL::BlendShapeStart bsStart;
-				strcpy_s(bsStart.name, childLib[mI].GetBlendVertArr()[i].name.c_str());
-				//bsStart.numKeyFrames =
+				ACJL::BlendShapeKeysStart bsKeysStart;
+				strcpy_s(bsKeysStart.name, childLib[mI].GetBlendVertArr()[i].name.c_str());
+
+				bsKeysStart.numKeyFrames = childLib[mI].GetBlendShapeChannels()[i].keyframes.size();
+				ACJL_WRITE(bsKeysStart);
+				for (int bsKi = 0; bsKi < bsKeysStart.numKeyFrames; bsKi++)
+				{
+					ACJL::BSKeyFrame kf =
+						childLib[mI].GetBlendShapeChannels()[i].keyframes[bsKi];
+					ACJL_WRITE(kf);
+				}
 			}
 			//for (int j = 0; j < childLib[i].GetTexture().size(); j++)
 			//{
@@ -314,7 +328,6 @@ bool ReadFile(const char* exportedFile)
 		reader.close();
 	}
 
-	std::getchar();
 	return true;
 }
 

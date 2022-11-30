@@ -19,7 +19,7 @@ bool ReadFile(const char* exportedFile);
 
 int main(int argc, char** argv)
 {
-	char exporterFilepath[100]{ "Resources/noanimationACJL/blend.acjl" };
+	char exporterFilepath[100]{ "Resources/blend.acjl" };
 	FbxString fbxFile = { "Resources/FbxWithTexture/blendAni.fbx"};
 
 	//___________________________________ Manager and IO Setting ___________________________________//
@@ -115,7 +115,7 @@ void GetChildrenAndAttr(vector<Child>& childLib, vector<Light>& lightLib, std::v
 					initTextures(child, filepath);
 				}
 				child.SetAttrCount(childNode->GetNodeAttributeCount());
-
+				
 				childLib.push_back(child);
 
 				if (childNode->GetChildCount() > 0)
@@ -146,6 +146,8 @@ void GetChildrenAndAttr(vector<Child>& childLib, vector<Light>& lightLib, std::v
 	}
 }
 
+#define ACJL_WRITE(data) output.write((const char*)&data, sizeof(data))
+
 //_______________________________________________________________________________ FIXA P� M�NDAG, S� VERTISER BLIR R�TT _______________________________________________________________________________//
 bool ExportFile(const char* exportFilePath, vector<Child>& childLib, vector<Light>& lightLib, std::vector<ACJL::Camera> cameras,
 	unsigned int& childCount, unsigned int& nrOfMeshes, unsigned int& nrOfLights, unsigned int& camCount, FbxExporter* exporter)
@@ -170,6 +172,7 @@ bool ExportFile(const char* exportFilePath, vector<Child>& childLib, vector<Ligh
 		for (int mI = 0; mI < exportStart.nrOfMeshes; mI++)
 		{
 			ACJL::Mesh exportMesh = childLib[mI].GetMesh();
+			exportMesh.nrOfBlendShapes = childLib[mI].GetBlendVertArr().size();
 			printf("Material Name :	%s \n" ,childLib[mI].GetMaterialID());
 			printf("exporting mesh......	:	%s\n", childLib[mI].GetMesh().meshName);
 			output.write((const char*)&exportMesh, sizeof(ACJL::Mesh));
@@ -177,17 +180,42 @@ bool ExportFile(const char* exportFilePath, vector<Child>& childLib, vector<Ligh
 			{
 				ACJL::Vertex exportVertex = childLib[mI].GetVertexByIndex(j);
 				//printf("exporting vertex	: %i\n", &exportVertex);
-				output.write((const char*)&exportVertex, sizeof(ACJL::Vertex));
+				//output.write((const char*)&exportVertex, sizeof(ACJL::Vertex));
+				ACJL_WRITE(exportVertex);
 			}
 			for (int i = 0; i < exportMesh.nrOfMaterial; i++)
 			{
 				ACJL::MaterialID exportMaterialID = childLib[mI].GetMaterialID()[i];
-				output.write((const char*)&exportMaterialID, sizeof(ACJL::MaterialID));
+				//output.write((const char*)&exportMaterialID, sizeof(ACJL::MaterialID));
+				ACJL_WRITE(exportMaterialID);
 			}
 			for (int i = 0; i < exportMesh.nrOfMaterial; i++)
 			{
 				ACJL::Material readMat = childLib[mI].GetMaterial()[i];
-				output.write((const char*)&readMat, sizeof(ACJL::Material));
+				//output.write((const char*)&readMat, sizeof(ACJL::Material));
+				ACJL_WRITE(readMat);
+			}
+			// write blendshape meshes
+			for (int i = 0; i < exportMesh.nrOfBlendShapes; i++)
+			{
+				ACJL::BlendShapeMeshStart bsMStart;
+				strcpy_s(bsMStart.name, childLib[mI].GetBlendVertArr()[i].name.c_str());
+				bsMStart.numVerts = exportMesh.nrOfVertices;
+				ACJL_WRITE(bsMStart);
+
+				for (int bsvi = 0; bsvi < exportMesh.nrOfVertices; bsvi++)
+				{
+					ACJL::BlendShapeVertex blendVert(childLib[mI].GetBlendVertArr()[i].vertArrs[bsvi]);
+					ACJL_WRITE(blendVert);
+				}
+			}
+			// write blendshape keyframes
+			// they are separated from blendmeshes in case we want to write other types of keyframes in the same area in the future
+			for (int i = 0; i < exportMesh.nrOfBlendShapes; i++)
+			{
+				ACJL::BlendShapeStart bsStart;
+				strcpy_s(bsStart.name, childLib[mI].GetBlendVertArr()[i].name.c_str());
+				//bsStart.numKeyFrames =
 			}
 			//for (int j = 0; j < childLib[i].GetTexture().size(); j++)
 			//{

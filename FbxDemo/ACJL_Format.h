@@ -1,7 +1,10 @@
 #pragma once
 
+
+	using uint = unsigned int;
 namespace ACJL
 {
+
 	//____________________________________________ Types ____________________________________________//
 	enum DataType
 	{
@@ -14,8 +17,9 @@ namespace ACJL
 		LIGHT,
 		CAMERA,
 		KEYFRAMES,
-		BLENDSHAPES,
-		ANIMATION
+		BLENDSHAPESTART,
+		BLENDSHAPE_MESH,
+		BLENDSHAPE_ANIMATION,
 	};
 
 	enum TextureType
@@ -189,44 +193,54 @@ namespace ACJL
 		float farZ = 0.0f;
 	};
 
-	//____________________________________________ Animation ____________________________________________//
+	//____________________________________________ BlendShape ____________________________________________//
+
+	//struct BindPose
+	//{
+	//	char ParentID[50] = { "" };
+	//	VertexType vt = SKELETONVTX;
+
+	//};
+
+	struct BlendShapeStart
+	{
+		DataType dt = BLENDSHAPESTART;
+		char name[64];
+		uint numKeyFrames;
+	};
+
+	struct BlendShapeMeshStart
+	{
+		DataType dt = BLENDSHAPESTART;
+		char name[64];
+		uint numVerts;
+	};
+	
+	struct BlendShapeVertex
+	{
+		float pos[3];
+		float normal[3];
+	};
+	
+	struct BSKeyFrame
+	{
+		unsigned int time;
+		float weight;
+	};
+}
+
+//____________________________________________ Dynamic data ____________________________________________//
+namespace DYNAMIC
+{
+	struct ACJLBlendShapeChannel
+	{
+		std::string name;
+		std::vector<ACJL::BSKeyFrame> keyframes;
+	};
 	struct BlendShape
 	{
-		DataType dt = BLENDSHAPES;
-		float morphShape[4];
+		std::string name;
+		std::vector<ACJL::BlendShapeVertex> vertArrs;
 	};
-
-	struct BlendShapeCountHeader
-	{
-		unsigned int morphshapeCount = 0;
-	};
-
-	struct BindPose
-	{
-		char ParentID[50] = { "" };
-		VertexType vt = SKELETONVTX;
-
-	};
-
-	struct AnimationStart
-	{
-
-	};
-
-	struct SkeletalAnimation
-	{
-		float duration = 0.0f;
-		int nrOfKeyframes = 0;
-		int nrOfJoints = 0;
-	};
-
-	struct Keyframe
-	{
-		DataType dt = KEYFRAMES;
-		float timeStamp = 0.0f;
-		float trans[3] = { 0.0f, 0.0f, 0.0f };
-		float rot[3] = { 0.0f, 0.0f, 0.0f };
-		float scale[3] = { 0.0f, 0.0f, 0.0f };
-	};
-
+	//using BlendShape = std::vector<ACJL::BlendShapeVertex>;
 }

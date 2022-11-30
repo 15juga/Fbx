@@ -1,4 +1,5 @@
 #pragma once
+#include "ACJL_Format.h"
 
 void GetMeshData(ACJL::Mesh& meshHeader, FbxNode* node)
 {
@@ -27,33 +28,35 @@ void GetMeshData(ACJL::Mesh& meshHeader, FbxNode* node)
 	meshHeader.nrOfVertices = 0;
 }
 
-struct BSKeyFrame
-{
-	unsigned int time;
-	float weight;
-};
-
-inline void GetAnimCurves(FbxAnimCurve* pCurve)
+inline std::vector<ACJL::BSKeyFrame> GetAnimCurves(FbxAnimCurve* pCurve)
 {
 	FbxTime pTime;
 	int keyCount = pCurve->KeyGetCount();
 
-	std::vector<BSKeyFrame> keyFrames;
+	std::vector<ACJL::BSKeyFrame> keyFrames;
 
 	for (int i = 0; i < keyCount; i++)
 	{
 		pTime = pCurve->KeyGetTime(i);
-		BSKeyFrame keyFrame;
-		keyFrame.weight = (float)pCurve->KeyGetValue(i);
 
+		ACJL::BSKeyFrame keyFrame;
+		keyFrame.weight = (float)pCurve->KeyGetValue(i);
+		//pTime.GetFramedTime()
+		char timeString[256];
+		pTime.GetTimeString(timeString, FbxUShort(256));
+
+		keyFrame.time = atoi(timeString); // temporary solution, might fix later
 
 		//keyFrame.time = pTime.GetTimeString()
 		keyFrames.emplace_back(keyFrame);
 	}
+	return keyFrames;
 }
 
-inline void GetMorphData(ACJL::Mesh& meshHeader, FbxMesh* pMesh, 
-	std::vector<ACJL::BlendShape>& outMorph, std::vector<fbxsdk::FbxVector4*>& outblendVerts, FbxAnimLayer* pAnimLayer)
+
+
+inline void GetMorphData(ACJL::Mesh& meshHeader, FbxMesh* pMesh,
+	std::vector<DYNAMIC::BlendShape>& outblendVerts, FbxAnimLayer* pAnimLayer, std::vector<DYNAMIC::ACJLBlendShapeChannel>& channels)
 {
 	int nOfBlendShapes = pMesh->GetDeformerCount();
 	FbxNodeAttribute* nodeAttr = pMesh->GetNode()->GetNodeAttribute();
@@ -61,11 +64,11 @@ inline void GetMorphData(ACJL::Mesh& meshHeader, FbxMesh* pMesh,
 
 	if (nodeAttr)
 	{
-		ACJL::BlendShape bs;
 		for (int bi = 0; bi < nOfBlendShapes; bi++)
 		{
 			FbxBlendShape* pFbxBs = (FbxBlendShape*)pMesh->GetDeformer(bi, FbxDeformer::eBlendShape);
 			int nOChannels = pFbxBs->GetBlendShapeChannelCount();
+			//std::vector<std::pair<char[64], std::vector<BSKeyFrame>>> channels;
 
 			for (int j = 0; j < nOChannels; j++)
 			{
@@ -77,20 +80,60 @@ inline void GetMorphData(ACJL::Mesh& meshHeader, FbxMesh* pMesh,
 				if (pAnimCurve)
 				{
 					cout << "Shape: " << channelName << " ";
-					GetAnimCurves(pAnimCurve);
+					DYNAMIC::ACJLBlendShapeChannel acjlChannel;
+					//strcpy_s(acjlChannel.name, channelName);
+					acjlChannel.name = channelName;
+					acjlChannel.keyframes = GetAnimCurves(pAnimCurve);
+					channels.emplace_back(acjlChannel);
 				}
 
-				//int noShapes = blendShapeChannel->GetTargetShapeCount();
+				int noShapes = blendShapeChannel->GetTargetShapeCount();
+				std::vector<DYNAMIC::BlendShape> blendShapes;
 				//for (int k = 0; k < noShapes; k++)
 				//{
-				//	FbxShape* pShape = blendShapeChannel->GetTargetShape(k);
-				//	int cpCount = pShape->GetControlPointsCount();
-				//	FbxVector4* cp = pShape->GetControlPoints();
-				//	std::vector<FbxVector4> vec;
-				//	outblendVerts.emplace_back(cp);
-				//}
-				
+				FbxShape* pShape = blendShapeChannel->GetTargetShape(0);
+				int cpCount = pShape->GetControlPointsCount();
+				FbxVector4* cp = pShape->GetControlPoints();
+				DYNAMIC::BlendShape bs;
 
+				int numPolygon = pMesh->GetPolygonCount();
+				int absoluteVertexIndex = 0;
+				for (int p = 0; p < numPolygon; p++)
+				{
+					int vertexCount = pMesh->GetPolygonSize(p);
+					
+					for (int pv = 0; pv < vertexCount; pv++)
+					{
+						ACJL::BlendShapeVertex bsVert;
+						int vertexIndex = pMesh->GetPolygonVertex(p, pv);
+
+						bsVert.pos[0] = (float)cp[vertexIndex][0];
+						bsVert.pos[1] = (float)cp[vertexIndex][1];
+						bsVert.pos[2] = (float)cp[vertexIndex][2];
+						
+						for (int nI = 0; nI < pShape->GetElementNormalCount(); nI++)
+						{
+							FbxGeometryElementNormal* pElementNormal = pShape->GetElementNormal(nI);
+
+							if (pElementNormal->GetMappingMode() == FbxGeometryElement::eByPolygonVertex && 
+								pElementNormal->GetReferenceMode() == FbxGeometryElement::eDirect)
+							{
+								FbxVector4 normal = pElementNormal->GetDirectArray().GetAt(absoluteVertexIndex + pv);
+								
+								bsVert.normal[0] = (float)normal[0];
+								bsVert.normal[1] = (float)normal[1];
+								bsVert.normal[2] = (float)normal[2];
+							}
+						}
+
+						bs.vertArrs.emplace_back(bsVert);
+						absoluteVertexIndex += vertexCount;
+						//uint cpIndex = pShape->;
+					}
+				}
+				bs.name = channelName;
+				outblendVerts.emplace_back(bs);
+				bs.vertArrs.clear();
 			}
 		}
 	}
@@ -290,14 +333,8 @@ void GetMeshAttr(Child& currentChild, FbxScene* pScene)
 
 	GetMaterials(currentChild.GetMesh(), currentChild.GetFbxNode());
 
-	std::vector<fbxsdk::FbxVector4*> blendVerts;
 	FbxAnimStack* pAnimStack = pScene->GetSrcObject<FbxAnimStack>();
-	int numAnimLayer = pAnimStack->GetMemberCount<FbxAnimLayer>();
-	for (int i = 0; i < numAnimLayer; i++)
-	{
-		GetMorphData(currentChild.GetMesh(), currentChild.GetFbxNode()->GetMesh(), currentChild.GetBlendShape(),
-			blendVerts, pAnimStack->GetMember<FbxAnimLayer>(i));
-	}
 
-	
+	GetMorphData(currentChild.GetMesh(), currentChild.GetFbxNode()->GetMesh(),
+		currentChild.GetBlendVertArr(), pAnimStack->GetMember<FbxAnimLayer>(), currentChild.GetBlendShapeChannels());
 }

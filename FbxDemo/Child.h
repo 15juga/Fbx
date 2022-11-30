@@ -14,8 +14,8 @@ private:
 	unsigned int nrOfMaterials = 0;
 	unsigned int nrOfTextures = 0;
 
-	vector<ACJL::BlendShape> morph;
-	vector<FbxVector4*> blendVerts;
+	vector<DYNAMIC::BlendShape> m_blendVertsArr;
+	std::vector<DYNAMIC::ACJLBlendShapeChannel> m_blendShapeChannels;
 public:
 	Child() {}
 	Child(FbxNode* node)
@@ -34,10 +34,11 @@ public:
 
 	ACJL::Mesh &GetMesh() { return mesh; }
 	std::vector<ACJL::Vertex> &GetVertices() { return vertices; }
+	std::vector<DYNAMIC::BlendShape> &GetBlendVertArr() { return m_blendVertsArr; }
 	std::vector<ACJL::MaterialID>& GetMaterialID() { return materialID; }
 	std::vector<ACJL::Material>& GetMaterial() { return material; }
 	std::vector<ACJL::Texture>& GetTexture() { return textures; }
-	std::vector<ACJL::BlendShape>& GetBlendShape() { return morph; }
+	std::vector<DYNAMIC::ACJLBlendShapeChannel>& GetBlendShapeChannels() { return m_blendShapeChannels; };
 
 	ACJL::Vertex& GetVertexByIndex(int index) { return vertices[index]; }
 
@@ -45,6 +46,4 @@ public:
 	unsigned int getNrOfTextures() const { return nrOfTextures; }
 	void setNrOfMaterials(unsigned int amount) { nrOfMaterials = amount; }
 	void setNrOfTextures(unsigned int amount) { nrOfTextures = amount; }
-
-
 };

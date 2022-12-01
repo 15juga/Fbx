@@ -3,7 +3,7 @@
 
 using uint = unsigned int;
 /*
-Every struct/datatype using the ACJL namespace is meant only for internal use
+Struct/datatype using the ACJL namespace is meant only for internal use
 */
 namespace ACJL
 {

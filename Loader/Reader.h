@@ -9,28 +9,31 @@ unless there is a "using" alternative below
 
 The reasoning for this is because none of the ACJL datatypes are dynamic and have set sizes
 */
-
+// Namespace LIB contains all datatypes meant to be used by the user of the lib
 namespace LIB
 {
 	/// <summary>
-	/// Material used by the user
+	/// Material DataType Intended for the user
 	/// </summary>
 	using ACJLMaterial = ACJL::Material;
+
 	/// <summary>
 	/// Material used by the user
 	/// </summary>
 	using ACJLMaterialID = ACJL::MaterialID;
+
 	/// <summary>
-	/// Light Datatype used by the user
+	/// Light DataType Intended for the user
 	/// </summary>
 	using ACJLLight = ACJL::Light;
+
 	/// <summary>
-	/// Camera Datatype used by the user
+	/// Camera DataType Intended for the user
 	/// </summary>
 	using ACJLCamera = ACJL::Camera;
 
 	/// <summary>
-	/// Mesh Datatype used by the user.
+	/// Mesh DataType Intended for the user.
 	/// </summary>
 	struct ACJLMesh
 	{
@@ -40,7 +43,7 @@ namespace LIB
 		std::vector<ACJL::Material> mat;
 	};
 	/// <summary>
-	/// Blendshape used by the user
+	/// Blendshape DataType Intended for the user
 	/// </summary>
 	struct ACJLBlendShape
 	{
@@ -48,7 +51,7 @@ namespace LIB
 		std::vector<ACJL::BlendShapeVertex> vertexes;
 	};
 	/// <summary>
-	/// Keyframe used by user
+	/// Keyframe set/BlendShape channel used by morph animation intended for the user
 	/// </summary>
 	struct ACJLBSKeyFrameSet
 	{
@@ -80,7 +83,7 @@ namespace LIB
 		/// Reads a ACJL file and loads all assets into memory
 		/// </summary>
 		/// <param name="exportedFile: Path to the file"></param>
-		/// <param name="printData: prints contents of file to the console if true"></param>
+		/// <param name="printData: Prints contents of file to the console if true"></param>
 		static void ReadFile(const char* exportedFile, bool printData = true);
 		/// <summary>
 		/// Returns std::vector of entered datatype from the previosly loaded file. Will throw if the entered datatype is not suported
@@ -127,6 +130,4 @@ namespace LIB
 		template<>
 		static std::vector<ACJLMaterial> Get<ACJLMaterial>() { return m_scene.m_materials; };
 	};
-
-
 }

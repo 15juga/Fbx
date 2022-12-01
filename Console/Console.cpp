@@ -8,7 +8,9 @@ int main()
     //std::vector<Vertex> mesh;
 
     LIB::ACJLReader::ReadFile("blend.acjl");
-    std::vector<LIB::ACJLMesh> meshes = LIB::ACJLReader::Get<LIB::ACJLMesh>();
+    LIB::ACJLMesh meshes = LIB::ACJLReader::Get<LIB::ACJLMesh>()[0];
+
+    //std::vector<LIB::ACJLMesh> meshes = LIB::ACJLReader::Get<LIB::ACJLMesh>();
     std::vector<LIB::ACJLBlendShape> bs = LIB::ACJLReader::Get<LIB::ACJLBlendShape>();
 
     std::getchar();

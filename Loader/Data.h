@@ -1,10 +1,9 @@
 #pragma once
-
+// Header containing all structs used to write/read to the ACJL format
 
 using uint = unsigned int;
 namespace ACJL
 {
-
 	//____________________________________________ Types ____________________________________________//
 	enum DataType
 	{
@@ -194,13 +193,6 @@ namespace ACJL
 	};
 
 	//____________________________________________ BlendShape ____________________________________________//
-
-	//struct BindPose
-	//{
-	//	char ParentID[50] = { "" };
-	//	VertexType vt = SKELETONVTX;
-
-	//};
 
 	struct BlendShapeKeysStart
 	{

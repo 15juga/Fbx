@@ -2,9 +2,11 @@
 
 
 using uint = unsigned int;
+/*
+Every struct/datatype using the ACJL namespace is meant only for internal use
+*/
 namespace ACJL
 {
-
 	//____________________________________________ Types ____________________________________________//
 	enum DataType
 	{

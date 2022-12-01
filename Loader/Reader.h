@@ -3,14 +3,35 @@
 #include <string>
 #include <vector>
 
+/*
+This header contains all structs meant to be used by the user. Any struct under the ACJL namespace is not meanty to be handled by users
+unless there is a "using" alternative below
+
+The reasoning for this is because none of the ACJL datatypes are dynamic and have set sizes
+*/
+
 namespace LIB
 {
-	enum ACJL_Load_Flags
-	{
-		ACJL_Load_Flags_PrintData = 0,
-		ACJL_Load_Flags_SaveData = 1,
-	};
+	/// <summary>
+	/// Material used by the user
+	/// </summary>
+	using ACJLMaterial = ACJL::Material;
+	/// <summary>
+	/// Material used by the user
+	/// </summary>
+	using ACJLMaterialID = ACJL::MaterialID;
+	/// <summary>
+	/// Material used by the user
+	/// </summary>
+	using ACJLLight = ACJL::Light;
+	/// <summary>
+	/// Material used by the user
+	/// </summary>
+	using ACJLCamera = ACJL::Camera;
 
+	/// <summary>
+	/// Mesh used by the user.
+	/// </summary>
 	struct ACJLMesh
 	{
 		std::string name;
@@ -18,19 +39,25 @@ namespace LIB
 		std::vector<ACJL::MaterialID> matId;
 		std::vector<ACJL::Material> mat;
 	};
-
+	/// <summary>
+	/// Blendshape used by the user
+	/// </summary>
 	struct ACJLBlendShape
 	{
 		std::string name;
 		std::vector<ACJL::BlendShapeVertex> vertexes;
 	};
-
+	/// <summary>
+	/// Keyframe used by user
+	/// </summary>
 	struct ACJLBSKeyFrameSet
 	{
 		std::string blendShapeName;
 		std::vector<ACJL::BSKeyFrame> keyframes;
 	};
-
+	/// <summary>
+	/// Main scene struct
+	/// </summary>
 	struct ACJLScene
 	{
 		std::vector<ACJLMesh>			 meshes;
@@ -40,7 +67,6 @@ namespace LIB
 		std::vector<ACJLBSKeyFrameSet>	 m_keyframeSet;
 		std::vector<ACJL::Material>		 m_materials;
 	};
-
 	class ACJLReader
 	{
 	private:
@@ -71,13 +97,13 @@ namespace LIB
 		/// </summary>
 		/// <returns></returns>
 		template<>
-		static std::vector<ACJL::Light> Get<ACJL::Light>() { return m_scene.m_lights; };
+		static std::vector<ACJL::Light> Get<ACJLLight>() { return m_scene.m_lights; };
 		/// <summary>
 		/// Returns the lights from the file
 		/// </summary>
 		/// <returns></returns>
 		template<>
-		static std::vector<ACJL::Camera> Get<ACJL::Camera>() { return m_scene.m_cams; };
+		static std::vector<ACJL::Camera> Get<ACJLCamera>() { return m_scene.m_cams; };
 		/// <summary>
 		/// Returns the cameras from the file
 		/// </summary>
@@ -95,7 +121,7 @@ namespace LIB
 		/// </summary>
 		/// <returns></returns>
 		template<>
-		static std::vector<ACJL::Material> Get<ACJL::Material>() { return m_scene.m_materials; };
+		static std::vector<ACJLMaterial> Get<ACJLMaterial>() { return m_scene.m_materials; };
 	};
 
 

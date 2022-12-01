@@ -21,16 +21,16 @@ namespace LIB
 	/// </summary>
 	using ACJLMaterialID = ACJL::MaterialID;
 	/// <summary>
-	/// Material used by the user
+	/// Light Datatype used by the user
 	/// </summary>
 	using ACJLLight = ACJL::Light;
 	/// <summary>
-	/// Material used by the user
+	/// Camera Datatype used by the user
 	/// </summary>
 	using ACJLCamera = ACJL::Camera;
 
 	/// <summary>
-	/// Mesh used by the user.
+	/// Mesh Datatype used by the user.
 	/// </summary>
 	struct ACJLMesh
 	{
@@ -67,6 +67,10 @@ namespace LIB
 		std::vector<ACJLBSKeyFrameSet>	 m_keyframeSet;
 		std::vector<ACJL::Material>		 m_materials;
 	};
+	/// <summary>
+	/// ACJL Reader class. To get started using ACJL call ReadFile(), then call Get using desired datatype as template. The function
+	/// returns a vector (std::vector) of all the components from the file
+	/// </summary>
 	class ACJLReader
 	{
 	private:

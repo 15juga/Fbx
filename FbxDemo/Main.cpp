@@ -20,7 +20,7 @@ bool ReadFile(const char* exportedFile);
 int main(int argc, char** argv)
 {
 	char exporterFilepath[100]{ "Resources/blend.acjl" };
-	FbxString fbxFile = { "Resources/FbxWithTexture/blendAni.fbx"};
+	FbxString fbxFile = { "Resources/blendAni.fbx"};
 
 	//___________________________________ Manager and IO Setting ___________________________________//
 	FbxManager* manager = FbxManager::Create();

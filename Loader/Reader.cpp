@@ -2,41 +2,6 @@
 
 namespace LIB
 {
-	//void Reader::LoadMesh(const char* filePath, std::vector<ACJL::Vertex>& mesh, ACJL::Material& material)
-	//{
-	//	std::ifstream file;
-	//	file.open(filePath, std::ios::binary | std::ios::in);
-	//	if (!file.is_open())
-	//		throw "Error could not open file\n";
-	//	else
-	//	{
-	//		ACJL::Start startS;
-	//		file.read((char*)&startS, sizeof(ACJL::Start));
-
-	//		for (int mI = 0; mI < startS.nrOfMeshes; mI++)
-	//		{
-	//			ACJL::Mesh meshS;
-	//			file.read((char*)&meshS, sizeof(ACJL::Mesh));
-	//			mesh.resize(meshS.nrOfVertices, Vertex());
-	//			for (int vI = 0; vI < meshS.nrOfVertices; vI++)
-	//			{
-	//				file.read((char*)&mesh[vI], sizeof(ACJL::Vertex));
-	//			}
-	//			for (int i = 0; i < meshS.nrOfMaterial; i++)
-	//			{
-	//				ACJL::MaterialID matID;
-	//				file.read((char*)&matID, sizeof(ACJL::MaterialID));
-	//			}
-	//			for (int i = 0; i < meshS.nrOfMaterial; i++)
-	//			{
-	//				file.read((char*)&material, sizeof(ACJL::Material));
-	//			}
-	//		}
-
-	//		file.close();
-	//	}
-	//}
-
 	void Reader::ReadFile(const char* exportedFile)
 	{
 		std::ifstream reader;

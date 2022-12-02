@@ -142,7 +142,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CommonDialogs.cpp" />
     <ClCompile Include="Console.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CommonDialogs.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

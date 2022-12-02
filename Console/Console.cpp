@@ -11,7 +11,7 @@ int main()
     while (x != 2) {
         
         if (x == 1) {
-            std::string path = Dialogs::OpenFile("Model (*.acjl)\0*.acjl;\0", "Assets\\");
+            std::string path = Dialogs::OpenFile("Model (*.acjl)\0*.acjl;\0", "..\\FbxDemo\\Resources\\");
             if (!path.empty())
             {
                 LIB::Reader::ReadFile(path.c_str());

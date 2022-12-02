@@ -69,8 +69,8 @@ int main(int argc, char** argv)
 	//___________________________________ Export ___________________________________//
 	FbxExporter* exporter = FbxExporter::Create(manager, "exporter");
 
-	//ExportFile(exporterFilepath, childLib, lightLib, cameras, totalCountOfChildren, nrOfMeshes, nrOfLights, nrOfCameras, exporter);
-	ReadFile(exporterFilepath);
+	ExportFile(exporterFilepath, childLib, lightLib, cameras, totalCountOfChildren, nrOfMeshes, nrOfLights, nrOfCameras, exporter);
+	//ReadFile(exporterFilepath);
 
 	//___________________________________ Terminate ___________________________________//
 	exporter->Destroy();

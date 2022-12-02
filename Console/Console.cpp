@@ -14,7 +14,7 @@ int main()
             std::string path = Dialogs::OpenFile("Model (*.acjl)\0*.acjl;\0", "..\\FbxDemo\\Resources\\");
             if (!path.empty())
             {
-                LIB::Reader::ReadFile(path.c_str());
+                LIB::ACJLReader::ReadFile(path.c_str());
             }
         }
         std::cout << "\n\n1. Load File\n2. Exit" << std::endl;

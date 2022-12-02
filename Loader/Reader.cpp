@@ -2,7 +2,7 @@
 
 namespace LIB
 {
-	void Reader::ReadFile(const char* exportedFile)
+	void ACJLReader::ReadFile(const char* exportedFile)
 	{
 		std::ifstream reader;
 

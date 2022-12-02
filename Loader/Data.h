@@ -1,6 +1,7 @@
 #pragma once
 #include "INC.H"
 
+using uint = unsigned int;
 namespace ACJL
 {
 	//____________________________________________ Types ____________________________________________//
@@ -15,8 +16,9 @@ namespace ACJL
 		LIGHT,
 		CAMERA,
 		KEYFRAMES,
-		BLENDSHAPES,
-		ANIMATION
+		BLENDSHAPESTART,
+		BLENDSHAPE_MESH,
+		BLENDSHAPE_ANIMATION,
 	};
 
 	enum TextureType
@@ -190,38 +192,30 @@ namespace ACJL
 		float farZ = 0.0f;
 	};
 
-	//____________________________________________ Animation ____________________________________________//
-	struct BlendShape
+	//____________________________________________ BlendShape ____________________________________________//
+	struct BlendShapeKeysStart
 	{
-		DataType dt = BLENDSHAPES;
-		float morphShape[4];
+		DataType dt = BLENDSHAPE_ANIMATION;
+		char name[64];
+		uint numKeyFrames;
 	};
 
-	struct BlendShapeCountHeader
+	struct BlendShapeMeshStart
 	{
-		unsigned int morphshapeCount = 0;
+		DataType dt = BLENDSHAPESTART;
+		char name[64];
+		uint numVerts;
 	};
 
-	//struct BindPose
-	//{
-	//	char ParentID[50] = { "" };
-	//	VertexType vt = SKELETONVTX;
+	struct BlendShapeVertex
+	{
+		float pos[3];
+		float normal[3];
+	};
 
-	//};
-
-	//struct SkeletalAnimation
-	//{
-	//	float duration = 0.0f;
-	//	int nrOfKeyframes = 0;
-	//	int nrOfJoints = 0;
-	//};
-
-	//struct Keyframe
-	//{
-	//	DataType dt = KEYFRAMES;
-	//	float timeStamp = 0.0f;
-	//	Vector3 trans = { 0.0f, 0.0f, 0.0f };
-	//	Vector3 rot = { 0.0f, 0.0f, 0.0f };
-	//	Vector3 scale = { 0.0f, 0.0f, 0.0f };
-	//};
+	struct BSKeyFrame
+	{
+		unsigned int time;
+		float weight;
+	};
 }

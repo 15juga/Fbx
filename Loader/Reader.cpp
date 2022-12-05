@@ -21,6 +21,7 @@ namespace LIB
 				reader.read((char*)&readMesh, sizeof(ACJL::Mesh));
 				printf("\nReading from ACJL___________________________________\n");
 				printf("\nMesh name from ACJL:	%s\n", readMesh.meshName);
+				printf("\nNr of Blendshapes: %i\n", readMesh.nrOfBlendShapes);
 
 				for (int i = 0; i < readMesh.nrOfVertices; i++)
 				{
@@ -51,6 +52,20 @@ namespace LIB
 					printf("Material type %i\n", readMat.mt);
 					printf("Specular %f %f %f\n", readMat.specular[0], readMat.specular[1], readMat.specular[2]);
 					printf("Specular intensity %f\n", readMat.specularIntensity);
+				}
+				for (int i = 0; i < readMesh.nrOfBlendShapes; i++)
+				{
+					ACJL::BlendShapeMeshStart bsMStart;
+					reader.read((char*)&bsMStart, sizeof(ACJL::BlendShapeMeshStart));
+					printf("\nMeshrelated Blend Name: %s\n", bsMStart.name);
+
+					ACJL::BlendShapeKeysStart bsKeysStart;
+					reader.read((char*)&bsKeysStart, sizeof(ACJL::BlendShapeKeysStart));
+					printf("\nAnimation duration: %i\n", bsKeysStart.numKeyFrames);
+					for (int bsvi = 0; bsvi < readMesh.nrOfVertices; bsvi++)
+					{
+
+					}
 				}
 			}
 			for (int lI = 0; lI < readStart.nrOfLight; lI++)

@@ -19,7 +19,7 @@ bool ReadFile(const char* exportedFile);
 
 int main(int argc, char** argv)
 {
-	char exporterFilepath[100]{ "Resources/blend.acjl" };
+	char exporterFilepath[100]{ "Resources/blendRead.acjl" };
 	FbxString fbxFile = { "Resources/blendAni.fbx"};
 
 	//___________________________________ Manager and IO Setting ___________________________________//

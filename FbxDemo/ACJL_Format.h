@@ -204,7 +204,7 @@ namespace ACJL
 
 	struct BlendShapeKeysStart
 	{
-		DataType dt = BLENDSHAPESTART;
+		DataType dt = BLENDSHAPE_ANIMATION;
 		char name[64];
 		uint numKeyFrames;
 	};

@@ -42,46 +42,28 @@ namespace LIB
 					reader.read((char*)&readMaterialID, sizeof(ACJL::MaterialID));
 					printf("\nMaterial ID %s\n", readMaterialID.matName);
 				}
+
 				for (int i = 0; i < readMesh.nrOfBlendShapes; i++)
 				{
 					ACJL::BlendShapeMeshStart bsMStart;
-					LIB::ACJLBlendShape acjlBS;
-
 					reader.read((char*)&bsMStart, sizeof(ACJL::BlendShapeMeshStart));
-					acjlBS.name = bsMStart.name;
-					printf("Blend Shape Name: %s\n", bsMStart.name);
-					printf("Blend Shape numVerts: %i\n", bsMStart.numVerts);
-					
 
-
-					for (int bsvi = 0; bsvi < readMesh.nrOfVertices; bsvi++)
+					for (int j = 0; j < readMesh.nrOfVertices; j++)
 					{
 						ACJL::BlendShapeVertex blendVert;
 						reader.read((char*)&blendVert, sizeof(ACJL::BlendShapeVertex));
-
-						printf("\tVertex %i\n", bsvi);
-						printf("\t\tPos: %f %f %f\n", blendVert.pos[0], blendVert.pos[1], blendVert.pos[2]);
-						printf("\t\tNormal: %f %f %f\n", blendVert.normal[0], blendVert.normal[1], blendVert.normal[2]);
 					}
 				}
-				// write blendshape keyframes
-				// they are separated from blendmeshes in case we want to write other types of keyframes in the same area in the future
 				for (int i = 0; i < readMesh.nrOfBlendShapes; i++)
 				{
 					ACJL::BlendShapeKeysStart bsKeysStart;
-					LIB::ACJLBSKeyFrameSet ksSet;
-
 					reader.read((char*)&bsKeysStart, sizeof(ACJL::BlendShapeKeysStart));
-					ksSet.blendShapeName = bsKeysStart.name;
-					printf("BlendShape: %s\n", bsKeysStart.name);
 
-					for (int bsKi = 0; bsKi < bsKeysStart.numKeyFrames; bsKi++)
+					for (int j = 0; j < readMesh.nrOfVertices; j++)
 					{
 						ACJL::BSKeyFrame kf;
 						reader.read((char*)&kf, sizeof(ACJL::BSKeyFrame));
-						printf("\tTime: %i Weight: %f\n", kf.time, kf.weight);
 					}
-
 				}
 			}
 			for (int lI = 0; lI < readStart.nrOfLight; lI++)

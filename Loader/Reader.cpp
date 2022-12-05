@@ -82,7 +82,6 @@ namespace LIB
 						printf("\tTime: %i Weight: %f\n", kf.time, kf.weight);
 					}
 
-					m_scene.m_keyframeSet.emplace_back(ksSet);
 				}
 			}
 			for (int lI = 0; lI < readStart.nrOfLight; lI++)

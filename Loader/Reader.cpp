@@ -42,30 +42,47 @@ namespace LIB
 					reader.read((char*)&readMaterialID, sizeof(ACJL::MaterialID));
 					printf("\nMaterial ID %s\n", readMaterialID.matName);
 				}
-				for (int i = 0; i < readMesh.nrOfMaterial; i++)
-				{
-					ACJL::Material readMat;
-					reader.read((char*)&readMat, sizeof(ACJL::Material));
-					printf("\nAlbedo name: %s\n", readMat.albedoName);
-					printf("Diffuse %f %f %f\n", readMat.diffuse[0], readMat.diffuse[2], readMat.diffuse[2]);
-					printf("Ambient %f %f %f\n", readMat.ambient[0], readMat.ambient[1], readMat.ambient[2]);
-					printf("Material type %i\n", readMat.mt);
-					printf("Specular %f %f %f\n", readMat.specular[0], readMat.specular[1], readMat.specular[2]);
-					printf("Specular intensity %f\n", readMat.specularIntensity);
-				}
 				for (int i = 0; i < readMesh.nrOfBlendShapes; i++)
 				{
 					ACJL::BlendShapeMeshStart bsMStart;
-					reader.read((char*)&bsMStart, sizeof(ACJL::BlendShapeMeshStart));
-					printf("\nMeshrelated Blend Name: %s\n", bsMStart.name);
+					LIB::ACJLBlendShape acjlBS;
 
-					ACJL::BlendShapeKeysStart bsKeysStart;
-					reader.read((char*)&bsKeysStart, sizeof(ACJL::BlendShapeKeysStart));
-					printf("\nAnimation duration: %i\n", bsKeysStart.numKeyFrames);
+					reader.read((char*)&bsMStart, sizeof(ACJL::BlendShapeMeshStart));
+					acjlBS.name = bsMStart.name;
+					printf("Blend Shape Name: %s\n", bsMStart.name);
+					printf("Blend Shape numVerts: %i\n", bsMStart.numVerts);
+					
+
+
 					for (int bsvi = 0; bsvi < readMesh.nrOfVertices; bsvi++)
 					{
+						ACJL::BlendShapeVertex blendVert;
+						reader.read((char*)&blendVert, sizeof(ACJL::BlendShapeVertex));
 
+						printf("\tVertex %i\n", bsvi);
+						printf("\t\tPos: %f %f %f\n", blendVert.pos[0], blendVert.pos[1], blendVert.pos[2]);
+						printf("\t\tNormal: %f %f %f\n", blendVert.normal[0], blendVert.normal[1], blendVert.normal[2]);
 					}
+				}
+				// write blendshape keyframes
+				// they are separated from blendmeshes in case we want to write other types of keyframes in the same area in the future
+				for (int i = 0; i < readMesh.nrOfBlendShapes; i++)
+				{
+					ACJL::BlendShapeKeysStart bsKeysStart;
+					LIB::ACJLBSKeyFrameSet ksSet;
+
+					reader.read((char*)&bsKeysStart, sizeof(ACJL::BlendShapeKeysStart));
+					ksSet.blendShapeName = bsKeysStart.name;
+					printf("BlendShape: %s\n", bsKeysStart.name);
+
+					for (int bsKi = 0; bsKi < bsKeysStart.numKeyFrames; bsKi++)
+					{
+						ACJL::BSKeyFrame kf;
+						reader.read((char*)&kf, sizeof(ACJL::BSKeyFrame));
+						printf("\tTime: %i Weight: %f\n", kf.time, kf.weight);
+					}
+
+					m_scene.m_keyframeSet.emplace_back(ksSet);
 				}
 			}
 			for (int lI = 0; lI < readStart.nrOfLight; lI++)

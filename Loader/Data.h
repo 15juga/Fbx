@@ -194,17 +194,16 @@ namespace ACJL
 	};
 
 	//____________________________________________ BlendShape ____________________________________________//
-
 	struct BlendShapeKeysStart
 	{
-		DataType dt = BLENDSHAPESTART;
+		DataType dt = BLENDSHAPE_ANIMATION;
 		char name[64];
 		uint numKeyFrames;
 	};
 
 	struct BlendShapeMeshStart
 	{
-		DataType dt = BLENDSHAPE_ANIMATION;
+		DataType dt = BLENDSHAPESTART;
 		char name[64];
 		uint numVerts;
 	};
@@ -220,4 +219,17 @@ namespace ACJL
 		unsigned int time;
 		float weight;
 	};
+}
+	//	Vector3 scale = { 0.0f, 0.0f, 0.0f };
+	//};
+}	//	Vector3 scale = { 0.0f, 0.0f, 0.0f };
+	//};
+}	//	Vector3 scale = { 0.0f, 0.0f, 0.0f };
+	//};
+}	//	Vector3 scale = { 0.0f, 0.0f, 0.0f };
+	//};
+}	//	Vector3 scale = { 0.0f, 0.0f, 0.0f };
+	//};
+}	//	Vector3 scale = { 0.0f, 0.0f, 0.0f };
+	//};
 }

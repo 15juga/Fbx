@@ -173,7 +173,6 @@ void GetChildrenAndAttr(vector<Child>& childLib, vector<Light>& lightLib, std::v
 #define ACJL_WRITE(data) output.write((const char*)&data, sizeof(data))
 #define ACJL_READ(data) reader.read((char*)&data, sizeof(data))
 
-//_______________________________________________________________________________ FIXA P� M�NDAG, S� VERTISER BLIR R�TT _______________________________________________________________________________//
 bool ExportFile(const char* exportFilePath, vector<Child>& childLib, vector<Light>& lightLib, std::vector<ACJL::Camera> cameras,
 	unsigned int& childCount, unsigned int& nrOfMeshes, unsigned int& nrOfLights, unsigned int& camCount, FbxExporter* exporter)
 {
@@ -192,6 +191,8 @@ bool ExportFile(const char* exportFilePath, vector<Child>& childLib, vector<Ligh
 		exportStart.nrOfCams = camCount;
 
 		output.write((const char*)&exportStart, sizeof(ACJL::Start));
+
+		std::vector<ACJL::Material> materials;
 
 		//Write mesh headers.
 		for (int mI = 0; mI < exportStart.nrOfMeshes; mI++)
@@ -221,8 +222,20 @@ bool ExportFile(const char* exportFilePath, vector<Child>& childLib, vector<Ligh
 			for (int i = 0; i < exportMesh.nrOfMaterial; i++)
 			{
 				ACJL::Material exportMat = childLib[mI].GetMaterial()[i];
-				//output.write((const char*)&exportMat, sizeof(ACJL::Material));
-				ACJL_WRITE(exportMat);
+
+				bool materialExist = false;
+				for (int j = 0; j < materials.size() && !materialExist; j++)
+				{
+					if (exportMat.matName == materials[j].matName)
+					{
+						materialExist = true;
+					}
+				}
+				if (!materialExist)
+				{
+					materials.emplace_back(exportMat);
+				}
+				//ACJL_WRITE(exportMat);
 			}
 			// write blendshape meshes
 			for (int i = 0; i < exportMesh.nrOfBlendShapes; i++)
@@ -271,6 +284,10 @@ bool ExportFile(const char* exportFilePath, vector<Child>& childLib, vector<Ligh
 		{
 			ACJL::Camera exportCamera = cameras[i];
 			output.write((const char*)&exportCamera, sizeof(ACJL::Camera));
+		}
+		for (int i = 0; i < materials.size(); i++)
+		{
+			ACJL_WRITE(materials[i]);
 		}
 	}
 

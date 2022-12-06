@@ -220,16 +220,3 @@ namespace ACJL
 		float weight;
 	};
 }
-	//	Vector3 scale = { 0.0f, 0.0f, 0.0f };
-	//};
-}	//	Vector3 scale = { 0.0f, 0.0f, 0.0f };
-	//};
-}	//	Vector3 scale = { 0.0f, 0.0f, 0.0f };
-	//};
-}	//	Vector3 scale = { 0.0f, 0.0f, 0.0f };
-	//};
-}	//	Vector3 scale = { 0.0f, 0.0f, 0.0f };
-	//};
-}	//	Vector3 scale = { 0.0f, 0.0f, 0.0f };
-	//};
-}

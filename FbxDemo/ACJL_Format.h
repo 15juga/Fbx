@@ -74,7 +74,6 @@ namespace ACJL
 		unsigned int nrOfMeshes = 0;
 		unsigned int nrOfLight = 0;
 		unsigned int nrOfCams = 0;
-		unsigned int nrOfMtrls = 0;
 	};
 
 	struct End

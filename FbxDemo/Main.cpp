@@ -206,6 +206,7 @@ bool ExportFile(const char* exportFilePath, vector<Child>& childLib, vector<Ligh
 			}
 			printf("\nexporting mesh......	:	%s\n", childLib[mI].GetMesh().meshName);
 			output.write((const char*)&exportMesh, sizeof(ACJL::Mesh));
+			printf("%i vertices...\n", exportMesh.nrOfVertices);
 			for (int j = 0; j < exportMesh.nrOfVertices; j++)
 			{
 				ACJL::Vertex exportVertex = childLib[mI].GetVertexByIndex(j);
@@ -213,6 +214,7 @@ bool ExportFile(const char* exportFilePath, vector<Child>& childLib, vector<Ligh
 				//output.write((const char*)&exportVertex, sizeof(ACJL::Vertex));
 				ACJL_WRITE(exportVertex);
 			}
+			printf("%i materials...\n", exportMesh.nrOfMaterial);
 			for (int i = 0; i < exportMesh.nrOfMaterial; i++)
 			{
 				ACJL::MaterialID exportMaterialID = childLib[mI].GetMaterialID()[i];
@@ -235,8 +237,9 @@ bool ExportFile(const char* exportFilePath, vector<Child>& childLib, vector<Ligh
 				{
 					materials.emplace_back(exportMat);
 				}
-				//ACJL_WRITE(exportMat);
+				ACJL_WRITE(exportMat);
 			}
+			printf("%i blendshapes...\n", exportMesh.nrOfBlendShapes);
 			// write blendshape meshes
 			for (int i = 0; i < exportMesh.nrOfBlendShapes; i++)
 			{
@@ -258,37 +261,44 @@ bool ExportFile(const char* exportFilePath, vector<Child>& childLib, vector<Ligh
 				ACJL::BlendShapeKeysStart bsKeysStart;
 				strcpy_s(bsKeysStart.name, childLib[mI].GetBlendVertArr()[i].name.c_str());
 
+			printf("%s blendshape keyframes...\n", bsKeysStart.name);
 				bsKeysStart.numKeyFrames = childLib[mI].GetBlendShapeChannels()[i].keyframes.size();
 				ACJL_WRITE(bsKeysStart);
 				for (int bsKi = 0; bsKi < bsKeysStart.numKeyFrames; bsKi++)
 				{
 					ACJL::BSKeyFrame kf =
 						childLib[mI].GetBlendShapeChannels()[i].keyframes[bsKi];
+					printf("\ttime: %i, weight: %d\n", kf.time, kf.weight);
 					ACJL_WRITE(kf);
 				}
+				printf("\n");
 			}
 			//for (int j = 0; j < childLib[i].GetTexture().size(); j++)
 			//{
 			//	ACJL::Texture exportTexture = childLib[i].GetTexture()[j];
 			//	output.write((const char*)&exportTexture, sizeof(ACJL::Texture));
 			//}
+			
 		}
 		// write light header
 		for (int i = 0; i < exportStart.nrOfLight; i++)
 		{
 			ACJL::Light exportLight = lightLib[i].getLight();
+			printf("Light: %s, type: %i\n", exportLight.name, exportLight.lt);
 			output.write((const char*)&exportLight, sizeof(ACJL::Light));
 		}
+		printf("\nCams:\n");
 		// write cam header
 		for (int i = 0; i < exportStart.nrOfCams; i++)
 		{
 			ACJL::Camera exportCamera = cameras[i];
+			printf("Cam: %s, FOV: %f\n", exportCamera.name, exportCamera.FOV);
 			output.write((const char*)&exportCamera, sizeof(ACJL::Camera));
 		}
-		for (int i = 0; i < materials.size(); i++)
-		{
-			ACJL_WRITE(materials[i]);
-		}
+		//for (int i = 0; i < materials.size(); i++)
+		//{
+		//	ACJL_WRITE(materials[i]);
+		//}
 	}
 
 	output.close();

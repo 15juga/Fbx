@@ -48,11 +48,17 @@ namespace LIB
 					ACJL::BlendShapeMeshStart bsMStart;
 					reader.read((char*)&bsMStart, sizeof(ACJL::BlendShapeMeshStart));
 
+					printf("\nMaterial ID %s\n", bsMStart.name);
+					printf("\NumVerts %i\n", bsMStart.numVerts);
+
 					for (int j = 0; j < readMesh.nrOfVertices; j++)
 					{
 						ACJL::BlendShapeVertex blendVert;
 						reader.read((char*)&blendVert, sizeof(ACJL::BlendShapeVertex));
-					}
+
+						printf("\Vertex: %i\n", j);
+						printf("\Pos: %f %f %f\n", blendVert.pos[0], blendVert.pos[1], blendVert.pos[2]);
+						printf("\Normal: %f %f %f\n", blendVert.normal[0], blendVert.normal[1], blendVert.normal[2]);					}
 				}
 				for (int i = 0; i < readMesh.nrOfBlendShapes; i++)
 				{

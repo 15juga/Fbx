@@ -73,7 +73,7 @@ namespace LIB
 		std::vector<ACJL::Camera>		 m_cams;
 		std::vector<ACJLBlendShape>		 m_blendshapes;
 		std::vector<ACJLBSKeyFrameSet>	 m_keyframeSet;
-		std::vector<ACJL::Material>		 m_materials;
+		//std::vector<ACJL::Material>		 m_materials;
 	};
 
 
@@ -146,7 +146,7 @@ namespace LIB
 		/// Returns the materials from the file
 		/// </summary>
 		/// <returns></returns>
-		template<>
-		static std::vector<ACJLMaterial> Get<ACJLMaterial>() { return m_scene[m_sceneIndex].m_materials; };
+		//template<>
+		//static std::vector<ACJLMaterial> Get<ACJLMaterial>() { return m_scene[m_sceneIndex].m_materials; };
 	};
 }

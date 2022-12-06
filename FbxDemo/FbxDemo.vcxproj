@@ -107,6 +107,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="CommonDialogs.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -197,6 +198,7 @@
     <ClInclude Include="ACJL_Format.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Child.h" />
+    <ClInclude Include="CommonDialogs.h" />
     <ClInclude Include="Geometry.h" />
     <ClInclude Include="Includes.h" />
     <ClInclude Include="Light.h" />

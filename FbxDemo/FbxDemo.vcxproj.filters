@@ -96,6 +96,9 @@
     <ClCompile Include="..\FbxExample\DisplayMesh.cxx">
       <Filter>FBX DEMO</Filter>
     </ClCompile>
+    <ClCompile Include="CommonDialogs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\FbxExample\DisplayMesh.h">
@@ -180,6 +183,9 @@
       <Filter>Header Files\Node Types</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CommonDialogs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

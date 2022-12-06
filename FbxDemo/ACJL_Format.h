@@ -1,9 +1,9 @@
 #pragma once
 
-
 using uint = unsigned int;
 /*
-Struct/datatype using the ACJL namespace is meant only for internal use
+Struct/datatypes using the ACJL namespace is meant only for internal use and should be used outside the library
+Should not be used outside the lib unless redefined in Reader.h
 */
 namespace ACJL
 {

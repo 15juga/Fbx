@@ -1,5 +1,6 @@
 #pragma once
 // Header containing all structs used to write/read to the ACJL format
+// Should not be used outside the lib unless redefined in Reader.h
 
 using uint = unsigned int;
 namespace ACJL
@@ -203,7 +204,7 @@ namespace ACJL
 
 	struct BlendShapeMeshStart
 	{
-		DataType dt = BLENDSHAPESTART;
+		DataType dt = BLENDSHAPE_ANIMATION;
 		char name[64];
 		uint numVerts;
 	};

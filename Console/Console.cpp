@@ -10,7 +10,7 @@ int main()
     //    LIB::ACJLReader::ReadFile(path.c_str());
     //}
 
-    std::string path = "../FbxDemo/Resources/blend.acjl";
+    std::string path = "../FbxDemo/Resources/cat.acjl";
     LIB::ACJLReader::ReadFile(path.c_str());
     //LIB::Reader::ReadFile("cube.acjl");
 }

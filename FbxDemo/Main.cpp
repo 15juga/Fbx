@@ -19,8 +19,8 @@ bool ReadFile(const char* exportedFile);
 
 int main(int argc, char** argv)
 {
-	char exporterFilepath[100]{ "Resources/blend.acjl" };
-	FbxString fbxFile = { "Resources/blendAni.fbx"};
+	char exporterFilepath[100]{ "Resources/catRead.acjl" };
+	FbxString fbxFile = { "Resources/cat.fbx"};
 
 	//___________________________________ Manager and IO Setting ___________________________________//
 	FbxManager* manager = FbxManager::Create();
@@ -36,7 +36,6 @@ int main(int argc, char** argv)
 		cout << "ERROR. FAILED TO IMPORT" + fbxFile + "." << endl;
 		return 0;
 	}
-
 	importer->GetFileVersion(fileMajor, fileMinor, fileRevision);
 
 	//___________________________________ Import Scene ___________________________________//
@@ -303,7 +302,6 @@ bool ReadFile(const char* exportedFile)
 				printf("Ambient %f %f %f\n", readMat.ambient[0], readMat.ambient[1], readMat.ambient[2]);
 				printf("Material type %i\n", readMat.mt);
 				printf("Specular %f %f %f\n", readMat.specular[0], readMat.specular[1], readMat.specular[2]);
-				printf("Specular intensity %f\n", readMat.specularIntensity);
 			}
 		}
 		for (int lI = 0; lI < readStart.nrOfLight; lI++)

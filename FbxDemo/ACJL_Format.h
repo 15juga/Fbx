@@ -131,7 +131,6 @@ namespace ACJL
 		float ambient[3] = { 0.0f, 0.0f, 0.0f };
 		float diffuse[3] = { 0.0f, 0.0f, 0.0f };
 		float specular[3] = { 0.0f, 0.0f, 0.0f };
-		float specularIntensity = 0.0f;
 		char albedoName[500] = { "" };
 		char normalName[100] = { "" };
 	};

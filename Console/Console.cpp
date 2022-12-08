@@ -30,7 +30,7 @@ int main()
 
 					for (int v = 0; v < meshes[i].vertexes.size(); v++)
 					{
-						printf("\t\tVertex %i:\n\t\tPosition: %f %f %f\n", v,
+						printf("\t\tVertex %i:\n\t\t\tPosition: %f %f %f\n", v,
 							meshes[i].vertexes[v].pos[0],
 							meshes[i].vertexes[v].pos[1],
 							meshes[i].vertexes[v].pos[2]);
@@ -52,8 +52,21 @@ int main()
 							meshes[i].vertexes[v].bitangents[1],
 							meshes[i].vertexes[v].bitangents[2]);
 					}
+					
+					for (int m = 0; m < meshes[i].mat.size(); m++)
+					{
+						printf("\tMaterial name: %s\n", meshes[i].mat[m].matName);
+						printf("\tAlbedo: %s\n", meshes[i].mat[m].albedoName);
+						printf("\tNormal: %s\n", meshes[i].mat[m].normalName);
+						printf("\tDiffuse: %f %f %f\n", meshes[i].mat[m].diffuse[0], 
+							meshes[i].mat[m].diffuse[1], meshes[i].mat[m].diffuse[2]);
+						printf("\tAmbient: %f %f %f\n", meshes[i].mat[m].ambient[0],
+							meshes[i].mat[m].ambient[1], meshes[i].mat[m].ambient[2]);
+						printf("\tSpecular: %f %f %f\n", meshes[i].mat[m].specular[0],
+							meshes[i].mat[m].specular[1], meshes[i].mat[m].specular[2]);
+					}
 				}
-				printf("\n-------------BlendShapes----------------");
+				printf("\n-------------BlendShapes----------------\n");
 				printf("Number of blendshapes %i\n", (int)bsShapes.size());
 				for (int i = 0; i < bsShapes.size(); i++)
 				{

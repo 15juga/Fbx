@@ -65,13 +65,12 @@ void LoadMaterialData(std::vector<ACJL::Material>& vMaterialHeader, FbxScene* sc
 
 			//Ambient
 			FbxDouble3 ambient = phong->Ambient;
-
 			for (int j = 0; j < 3; j++)
 			{
 				materialHeader.ambient[j] = (float)ambient[j];
 			}
 
-			//Diffuse
+			//Diffuse, RGB
 			FbxDouble3 diffuse = phong->Diffuse;
 
 			for (int j = 0; j < 3; j++)
@@ -87,9 +86,6 @@ void LoadMaterialData(std::vector<ACJL::Material>& vMaterialHeader, FbxScene* sc
 				materialHeader.specular[j] = (float)specular[j];
 			}
 
-			//Specular intensity
-			materialHeader.specularIntensity = (float)phong->SpecularFactor;
-
 			//Type
 			materialHeader.mt = ACJL::MaterialType::PHONG;
 		}
@@ -98,18 +94,17 @@ void LoadMaterialData(std::vector<ACJL::Material>& vMaterialHeader, FbxScene* sc
 		else if (materialType.Is(FbxSurfaceLambert::ClassId))
 		{
 			FbxSurfaceLambert* lambert = (FbxSurfaceLambert*)material;
+			FbxString test = lambert->GetNameOnly();
 
 			//Ambient
 			FbxDouble3 ambient = lambert->Ambient;
-
 			for (int j = 0; j < 3; j++)
 			{
 				materialHeader.ambient[j] = (float)ambient[j];
 			}
 			
-			//Diffuse
+			//Diffuse, RGB
 			FbxDouble3 diffuse = lambert->Diffuse;
-
 			for (int j = 0; j < 3; j++)
 			{
 				materialHeader.diffuse[j] = (float)diffuse[j];
@@ -123,84 +118,6 @@ void LoadMaterialData(std::vector<ACJL::Material>& vMaterialHeader, FbxScene* sc
 		vMaterialHeader.push_back(materialHeader);
 	}
 
-}
-
-void LoadTextures(std::vector<ACJL::Texture>& compare, FbxScene* scene, Child& child, char albedo[], char normal[])
-{
-	FbxProperty prop;
-	FbxTexture* texture;
-	FbxFileTexture* fileTexture;
-
-	if (prop.IsValid())
-	{
-		int textureCount = prop.GetSrcObjectCount<FbxTexture>();
-
-		ACJL::Texture textureHeader;
-
-		for (int i = 0; i < textureCount; i++)
-		{
-			texture = prop.GetSrcObject<FbxTexture>(i);
-
-			fileTexture = FbxCast<FbxFileTexture>(texture);
-
-			if (fileTexture)
-			{
-				//Get Path and Name
-				FbxString filepath = fileTexture->GetFileName();
-
-				int removedChars = 0;
-
-				while (filepath.Find("/", removedChars) != 1 || filepath.Find("\\"), removedChars)
-				{
-					removedChars++;
-				}
-
-				int charCount = filepath.GetLen();
-				int charResult = charCount - removedChars;
-
-
-				//Set Name and New Path
-
-				FbxString texName = filepath.Right(charResult);
-				std::string exportPath = "";
-				FbxString finalPath = exportPath.c_str() + texName;
-
-				strcpy_s(textureHeader.path, finalPath);
-				strcpy_s(textureHeader.name, texName);
-
-				//Set Type
-
-				FbxString propName = prop.GetName();
-
-				//if (propName == "DiffuseColor")
-				//{
-				//	textureHeader.tt = ACJL::TextureType::DIFFUSE;
-				//}
-				//else if (propName == "Bump")
-				//{
-				//	textureHeader.tt = ACJL::TextureType::NORMAL;
-				//}
-
-				//Check if texture is already loaded
-				if (!IfAlreadyLoaded(textureHeader, compare, albedo, normal))
-				{
-					//If Not
-					//if (textureHeader.tt == ACJL::TextureType::DIFFUSE)
-					//{
-					//	strcpy_s(albedo, 300, textureHeader.path);
-					//}
-					//if (textureHeader.tt == ACJL::TextureType::NORMAL)
-					//{
-					//	strcpy_s(normal, 300, textureHeader.path);
-					//}
-
-					//Copy files to new path
-					CopyFile(filepath, finalPath, false);
-
-				}
-			}
-		}
-	}
 }
 
 void initTextures(Child& child, FbxString filepath)

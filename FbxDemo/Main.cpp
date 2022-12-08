@@ -59,7 +59,6 @@ int main(int argc, char** argv)
 		cout << "ERROR. FAILED TO IMPORT" + fbxFile + "." << endl;
 		return 0;
 	}
-
 	importer->GetFileVersion(fileMajor, fileMinor, fileRevision);
 
 	//___________________________________ Import Scene ___________________________________//
@@ -268,7 +267,7 @@ bool ExportFile(const char* exportFilePath, vector<Child>& childLib, vector<Ligh
 				{
 					ACJL::BSKeyFrame kf =
 						childLib[mI].GetBlendShapeChannels()[i].keyframes[bsKi];
-					printf("\ttime: %i, weight: %d\n", kf.time, kf.weight);
+					printf("\ttime: %i, weight: %f\n", kf.time, kf.weight);
 					ACJL_WRITE(kf);
 				}
 				printf("\n");
@@ -353,7 +352,6 @@ bool ReadFile(const char* exportedFile)
 				printf("Ambient %f %f %f\n", readMat.ambient[0], readMat.ambient[1], readMat.ambient[2]);
 				printf("Material type %i\n", readMat.mt);
 				printf("Specular %f %f %f\n", readMat.specular[0], readMat.specular[1], readMat.specular[2]);
-				printf("Specular intensity %f\n", readMat.specularIntensity);
 			}
 			for (int i = 0; i < readMesh.nrOfBlendShapes; i++)
 			{

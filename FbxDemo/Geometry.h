@@ -212,7 +212,6 @@ void GetVertexData(ACJL::Mesh& meshHeader, vector<ACJL::Vertex>& vertexHeader, F
 					vertex.normals[0] = normal[0];
 					vertex.normals[1] = normal[1];
 					vertex.normals[2] = normal[2];
-
 				}
 			}
 
@@ -225,7 +224,9 @@ void GetVertexData(ACJL::Mesh& meshHeader, vector<ACJL::Vertex>& vertexHeader, F
 				{
 					FbxVector4 tangent = elementTangent->GetDirectArray().GetAt(vertexID);
 
-					vertex.tangents[t] = tangent[t];
+					vertex.tangents[0] = tangent[0];
+					vertex.tangents[1] = tangent[1];
+					vertex.tangents[2] = tangent[2];
 				}
 			}
 
@@ -238,7 +239,9 @@ void GetVertexData(ACJL::Mesh& meshHeader, vector<ACJL::Vertex>& vertexHeader, F
 				{
 					FbxVector4 biTan = elementBi->GetDirectArray().GetAt(vertexID);
 
-					vertex.bitangents[b] = biTan[b];
+					vertex.bitangents[0] = biTan[0];
+					vertex.bitangents[1] = biTan[1];
+					vertex.bitangents[2] = biTan[2];
 				}
 			}
 

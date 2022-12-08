@@ -8,9 +8,10 @@
 #include "Material.h"
 #include "Light.h"
 #include "Camera.h"
+#include "CommonDialogs.h"
 
 void GetChildrenAndAttr(vector<Child>& childLib, vector<Light>& lightLib, std::vector<ACJL::Camera>& cameras, 
-	unsigned int& totalCountOfChildren, unsigned int& nrOfMeshes, unsigned int& nrOfLights, unsigned int& nrOfCameras, FbxNode* node, FbxNodeAttribute* nodeAttr, FbxScene* scene, char filepath[]);
+	unsigned int& totalCountOfChildren, unsigned int& nrOfMeshes, unsigned int& nrOfLights, unsigned int& nrOfCameras, FbxNode* node, FbxNodeAttribute* nodeAttr, FbxScene* scene, const char* filepath);
 
 bool ExportFile(const char* exportFilePath, vector<Child>& childLib, vector<Light>& lightLib, std::vector<ACJL::Camera> cameras, 
 	unsigned int& childCount, unsigned int& nrOfMeshes, unsigned int& nrOfLights, unsigned int& nrOfCameras, FbxExporter* exporter);
@@ -19,8 +20,30 @@ bool ReadFile(const char* exportedFile);
 
 int main(int argc, char** argv)
 {
-	char exporterFilepath[100]{ "Resources/catRead.acjl" };
-	FbxString fbxFile = { "Resources/cat.fbx"};
+	// Execute the program to export a file
+
+	// First window will ask you to open a fbx file
+	// Second window will ask you to specify a path for the new file
+
+
+
+	//char exporterFilepath[100]{ "Resources/blend.acjl" };
+	std::string openFilePath = Dialogs::OpenFile("Fbx file (*.fbx)\0*.fbx\0", "Resources\\");
+	FbxString fbxFile = openFilePath.c_str();
+	//FbxString fbxFile = { "Resources/blendAni.fbx"};
+
+	std::string exportfilePath = Dialogs::SaveFile("ACJL file (*.acjl)\0*.acjl\0", "Resources\\");
+	size_t offset = exportfilePath.find_last_of('.');
+	if (offset == std::string::npos)
+		exportfilePath.append(".acjl");
+
+	// Checking if dialogs were canceled, if the operation is canceled the program will exit
+	if (openFilePath.empty() || exportfilePath.empty())
+	{
+		return 1;
+	}
+
+	printf("Exporting from file:\n\t%s\nInto:\n\t%s\n\n", openFilePath.c_str(), exportfilePath.c_str());
 
 	//___________________________________ Manager and IO Setting ___________________________________//
 	FbxManager* manager = FbxManager::Create();
@@ -60,7 +83,7 @@ int main(int argc, char** argv)
 	unsigned int nrOfLights = 0;
 	unsigned int nrOfCameras = 0;
 
-	GetChildrenAndAttr(childLib, lightLib, cameras, totalCountOfChildren, nrOfMeshes, nrOfLights, nrOfCameras, root, nodeAttr, scene, exporterFilepath);
+	GetChildrenAndAttr(childLib, lightLib, cameras, totalCountOfChildren, nrOfMeshes, nrOfLights, nrOfCameras, root, nodeAttr, scene, exportfilePath.c_str());
 
 	//PrintData(childLib, totalCountOfChildren);
 
@@ -68,7 +91,7 @@ int main(int argc, char** argv)
 	//___________________________________ Export ___________________________________//
 	FbxExporter* exporter = FbxExporter::Create(manager, "exporter");
 
-	ExportFile(exporterFilepath, childLib, lightLib, cameras, totalCountOfChildren, nrOfMeshes, nrOfLights, nrOfCameras, exporter);
+	ExportFile(exportfilePath.c_str(), childLib, lightLib, cameras, totalCountOfChildren, nrOfMeshes, nrOfLights, nrOfCameras, exporter);
 	//ReadFile(exporterFilepath);
 
 	//___________________________________ Terminate ___________________________________//
@@ -85,7 +108,7 @@ int main(int argc, char** argv)
 
 //_________________________________________________________ CAN ONLY COUNT ONE CHILD AT THE MOMENT <---UNSURE _________________________________________________________//
 void GetChildrenAndAttr(vector<Child>& childLib, vector<Light>& lightLib, std::vector<ACJL::Camera>& cameras, unsigned int& totalCountOfChildren, unsigned int& nrOfMeshes, unsigned int& nrOfLights, unsigned int& nrOfCameras,
-	FbxNode* node, FbxNodeAttribute* nodeAttr, FbxScene* scene, char filepath[])
+	FbxNode* node, FbxNodeAttribute* nodeAttr, FbxScene* scene, const char* filepath)
 {
 	int childCount = node->GetChildCount();
 
@@ -98,7 +121,6 @@ void GetChildrenAndAttr(vector<Child>& childLib, vector<Light>& lightLib, std::v
 		for (int j = 0; j < childNode->GetNodeAttributeCount(); j++)
 		{
 			FbxNodeAttribute* attrType = childNode->GetNodeAttributeByIndex(i);
-			printf("node attr %i\n", childNode->GetNodeAttribute()->GetAttributeType());
 
 			switch (childNode->GetNodeAttribute()->GetAttributeType())
 			{
@@ -148,8 +170,8 @@ void GetChildrenAndAttr(vector<Child>& childLib, vector<Light>& lightLib, std::v
 }
 
 #define ACJL_WRITE(data) output.write((const char*)&data, sizeof(data))
+#define ACJL_READ(data) reader.read((char*)&data, sizeof(data))
 
-//_______________________________________________________________________________ FIXA P� M�NDAG, S� VERTISER BLIR R�TT _______________________________________________________________________________//
 bool ExportFile(const char* exportFilePath, vector<Child>& childLib, vector<Light>& lightLib, std::vector<ACJL::Camera> cameras,
 	unsigned int& childCount, unsigned int& nrOfMeshes, unsigned int& nrOfLights, unsigned int& camCount, FbxExporter* exporter)
 {
@@ -169,6 +191,8 @@ bool ExportFile(const char* exportFilePath, vector<Child>& childLib, vector<Ligh
 
 		output.write((const char*)&exportStart, sizeof(ACJL::Start));
 
+		std::vector<ACJL::Material> materials;
+
 		//Write mesh headers.
 		for (int mI = 0; mI < exportStart.nrOfMeshes; mI++)
 		{
@@ -181,6 +205,7 @@ bool ExportFile(const char* exportFilePath, vector<Child>& childLib, vector<Ligh
 			}
 			printf("\nexporting mesh......	:	%s\n", childLib[mI].GetMesh().meshName);
 			output.write((const char*)&exportMesh, sizeof(ACJL::Mesh));
+			printf("%i vertices...\n", exportMesh.nrOfVertices);
 			for (int j = 0; j < exportMesh.nrOfVertices; j++)
 			{
 				ACJL::Vertex exportVertex = childLib[mI].GetVertexByIndex(j);
@@ -188,6 +213,7 @@ bool ExportFile(const char* exportFilePath, vector<Child>& childLib, vector<Ligh
 				//output.write((const char*)&exportVertex, sizeof(ACJL::Vertex));
 				ACJL_WRITE(exportVertex);
 			}
+			printf("%i materials...\n", exportMesh.nrOfMaterial);
 			for (int i = 0; i < exportMesh.nrOfMaterial; i++)
 			{
 				ACJL::MaterialID exportMaterialID = childLib[mI].GetMaterialID()[i];
@@ -197,9 +223,22 @@ bool ExportFile(const char* exportFilePath, vector<Child>& childLib, vector<Ligh
 			for (int i = 0; i < exportMesh.nrOfMaterial; i++)
 			{
 				ACJL::Material exportMat = childLib[mI].GetMaterial()[i];
-				//output.write((const char*)&exportMat, sizeof(ACJL::Material));
+
+				bool materialExist = false;
+				for (int j = 0; j < materials.size() && !materialExist; j++)
+				{
+					if (exportMat.matName == materials[j].matName)
+					{
+						materialExist = true;
+					}
+				}
+				if (!materialExist)
+				{
+					materials.emplace_back(exportMat);
+				}
 				ACJL_WRITE(exportMat);
 			}
+			printf("%i blendshapes...\n", exportMesh.nrOfBlendShapes);
 			// write blendshape meshes
 			for (int i = 0; i < exportMesh.nrOfBlendShapes; i++)
 			{
@@ -221,33 +260,44 @@ bool ExportFile(const char* exportFilePath, vector<Child>& childLib, vector<Ligh
 				ACJL::BlendShapeKeysStart bsKeysStart;
 				strcpy_s(bsKeysStart.name, childLib[mI].GetBlendVertArr()[i].name.c_str());
 
+			printf("%s blendshape keyframes...\n", bsKeysStart.name);
 				bsKeysStart.numKeyFrames = childLib[mI].GetBlendShapeChannels()[i].keyframes.size();
 				ACJL_WRITE(bsKeysStart);
 				for (int bsKi = 0; bsKi < bsKeysStart.numKeyFrames; bsKi++)
 				{
 					ACJL::BSKeyFrame kf =
 						childLib[mI].GetBlendShapeChannels()[i].keyframes[bsKi];
+					printf("\ttime: %i, weight: %d\n", kf.time, kf.weight);
 					ACJL_WRITE(kf);
 				}
+				printf("\n");
 			}
 			//for (int j = 0; j < childLib[i].GetTexture().size(); j++)
 			//{
 			//	ACJL::Texture exportTexture = childLib[i].GetTexture()[j];
 			//	output.write((const char*)&exportTexture, sizeof(ACJL::Texture));
 			//}
+			
 		}
 		// write light header
 		for (int i = 0; i < exportStart.nrOfLight; i++)
 		{
 			ACJL::Light exportLight = lightLib[i].getLight();
+			printf("Light: %s, type: %i\n", exportLight.name, exportLight.lt);
 			output.write((const char*)&exportLight, sizeof(ACJL::Light));
 		}
+		printf("\nCams:\n");
 		// write cam header
 		for (int i = 0; i < exportStart.nrOfCams; i++)
 		{
 			ACJL::Camera exportCamera = cameras[i];
+			printf("Cam: %s, FOV: %f\n", exportCamera.name, exportCamera.FOV);
 			output.write((const char*)&exportCamera, sizeof(ACJL::Camera));
 		}
+		//for (int i = 0; i < materials.size(); i++)
+		//{
+		//	ACJL_WRITE(materials[i]);
+		//}
 	}
 
 	output.close();
@@ -302,6 +352,39 @@ bool ReadFile(const char* exportedFile)
 				printf("Ambient %f %f %f\n", readMat.ambient[0], readMat.ambient[1], readMat.ambient[2]);
 				printf("Material type %i\n", readMat.mt);
 				printf("Specular %f %f %f\n", readMat.specular[0], readMat.specular[1], readMat.specular[2]);
+			}
+			for (int i = 0; i < readMesh.nrOfBlendShapes; i++)
+			{
+				ACJL::BlendShapeMeshStart bsMStart;
+				ACJL_READ(bsMStart);
+				printf("Blend Shape Name: %s\n", bsMStart.name);
+				printf("Blend Shape numVerts: %i\n", bsMStart.numVerts);
+
+				for (int bsvi = 0; bsvi < readMesh.nrOfVertices; bsvi++)
+				{
+					ACJL::BlendShapeVertex blendVert;
+					ACJL_READ(blendVert);
+					
+					printf("\tVertex %i\n", bsvi);
+					printf("\t\tPos: %f %f %f\n", blendVert.pos[0], blendVert.pos[1], blendVert.pos[2]);
+					printf("\t\tNormal: %f %f %f\n", blendVert.normal[0], blendVert.normal[1], blendVert.normal[2]);
+				}
+
+			}
+			// write blendshape keyframes
+			// they are separated from blendmeshes in case we want to write other types of keyframes in the same area in the future
+			for (int i = 0; i < readMesh.nrOfBlendShapes; i++)
+			{
+				ACJL::BlendShapeKeysStart bsKeysStart;
+				ACJL_READ(bsKeysStart);
+				printf("BlendShape: %s\n", bsKeysStart.name);
+				for (int bsKi = 0; bsKi < bsKeysStart.numKeyFrames; bsKi++)
+				{
+					ACJL::BSKeyFrame kf;
+					ACJL_READ(kf);
+					
+					printf("\tTime: %i Weight: %f\n", kf.time, kf.weight);
+				}
 			}
 		}
 		for (int lI = 0; lI < readStart.nrOfLight; lI++)

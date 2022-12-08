@@ -145,7 +145,7 @@ namespace ACJL
 		char goboFileName[64];
 		char shadowTexturePath[96];
 
-		float trans[3] = { 0.0f, 0.0f, 0.0f };
+		float pos[3] = { 0.0f, 0.0f, 0.0f };
 		float intensity = 0.0f;
 		float rot[3] = { 0.0f, 0.0f, 0.0f };
 		float outerAngle = 0.0f;

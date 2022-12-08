@@ -32,12 +32,13 @@ void GetLightData(FbxNode* node, ACJL::Light &light)
 
 	for (int i = 0; i < 3; i++)
 	{
-		light.trans[i] = transform[i];
+		light.pos[i] = transform[i];
 		light.rot[i] = rotation[i];
 		light.scale[i] = scale[i];
 		light.rgb[i] = lLight->Color.Get()[i];
 		light.shadowColor[i] = lLight->ShadowColor.Get()[i];
 	}
+
 	light.intensity = lLight->Intensity.Get();
 	light.outerAngle = lLight->OuterAngle;
 	light.fog = lLight->Fog.Get();

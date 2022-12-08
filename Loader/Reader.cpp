@@ -111,7 +111,6 @@ namespace LIB
 						printf("Ambient %f %f %f\n", readMat.ambient[0], readMat.ambient[1], readMat.ambient[2]);
 						printf("Material type %i\n", readMat.mt);
 						printf("Specular %f %f %f\n", readMat.specular[0], readMat.specular[1], readMat.specular[2]);
-						printf("Specular intensity %f\n", readMat.specularIntensity);
 					}
 
 				}

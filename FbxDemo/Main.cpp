@@ -267,7 +267,7 @@ bool ExportFile(const char* exportFilePath, vector<Child>& childLib, vector<Ligh
 				{
 					ACJL::BSKeyFrame kf =
 						childLib[mI].GetBlendShapeChannels()[i].keyframes[bsKi];
-					printf("\ttime: %i, weight: %d\n", kf.time, kf.weight);
+					printf("\ttime: %i, weight: %f\n", kf.time, kf.weight);
 					ACJL_WRITE(kf);
 				}
 				printf("\n");

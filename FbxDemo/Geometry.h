@@ -118,11 +118,17 @@ inline void GetMorphData(ACJL::Mesh& meshHeader, FbxMesh* pMesh,
 							if (pElementNormal->GetMappingMode() == FbxGeometryElement::eByPolygonVertex && 
 								pElementNormal->GetReferenceMode() == FbxGeometryElement::eDirect)
 							{
-								FbxVector4 normal = pElementNormal->GetDirectArray().GetAt(absoluteVertexIndex + pv);
-								
+								FbxVector4 normal = pElementNormal->GetDirectArray().GetAt(/*absoluteVertexIndex +*/ pv);
+							
+
 								bsVert.normal[0] = (float)normal[0];
 								bsVert.normal[1] = (float)normal[1];
 								bsVert.normal[2] = (float)normal[2];
+
+								if (bsVert.normal[0] == 0.f && bsVert.normal[1] == 0.f && bsVert.normal[2] == 0.f)
+								{
+									printf("");
+								}
 							}
 						}
 
